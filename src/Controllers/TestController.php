@@ -20,11 +20,7 @@ final class TestController extends AbstractController
 //        $em->flush();
 
 
-
-
         $link = $this->getContainer()->get('router')->generateUrl('route1',array('name'=> $name));
-
-
 
         return  $this->render("index.html.twig",
             array(

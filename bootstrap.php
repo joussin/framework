@@ -10,10 +10,11 @@ define("DEV_MODE",true);
 
 define("ROOT_PATH",__DIR__);
 define("HOSTNAME","localhost");
+define("INSTALL_DIR","framework");
 
 //pour le router entre autres, acces aux assets etc..
 if(!REWRITE_MODE)
-    define("WEB_PATH","http://".HOSTNAME."/framework/web");
+    define("WEB_PATH","http://".HOSTNAME."/".INSTALL_DIR."/web");
 else
     define("WEB_PATH","http://".HOSTNAME);
 
