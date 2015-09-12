@@ -1,0 +1,3 @@
+route1:
+    path:     /test/{id}
+    defaults: { _controller: 'Src\Controllers\TestController::indexAction' }

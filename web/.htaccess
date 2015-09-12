@@ -1,0 +1,10 @@
+#RewriteEngine on
+#
+#RewriteRule ^([a-z]+)/([a-z]+)$  index.php?controller=$1&action=$2  [L]
+#RewriteRule ^([a-z]+)$  index.php?controller=$1  [L]
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

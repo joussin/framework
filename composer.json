@@ -1,0 +1,18 @@
+{
+    "require": {
+        "doctrine/orm": "2.4.*",
+        "symfony/yaml": "2.*",
+        "twig/twig": "~1.0",
+      "symfony/dependency-injection": "~2.7",
+      "symfony/http-foundation": "~2.7",
+      "symfony/routing": "~2.7",
+      "symfony/config": "~2.7",
+      "symfony/http-kernel": "~2.7"
+    },
+    "autoload": {
+        "psr-4": {
+          "App\\": "app",
+          "Src\\": "src"
+        }
+    }
+}
