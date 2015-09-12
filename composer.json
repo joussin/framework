@@ -8,7 +8,10 @@
     "symfony/routing": "~2.7",
     "symfony/config": "~2.7",
     "symfony/http-kernel": "~2.7",
-    "symfony/debug": "~2.7"
+    "symfony/debug": "~2.7",
+    "symfony/form": "~2.7",
+    "symfony/validator": "2.3.*",
+    "symfony/twig-bridge": "2.4.*"
   },
   "autoload": {
     "psr-4": {
