@@ -10,6 +10,7 @@ namespace App\Lib\Services;
 class TwigService{
 
     private $twig;
+    private $twig_;
 
     public function __construct(){
 
