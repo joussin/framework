@@ -12,8 +12,8 @@ class MyService{
     public $str ;
 
 
-    public function __construct(){
-        $this->str = "STR DE CLASS EN  SERVICE";
+    public function __construct($str){
+        $this->str = $str;
     }
 
     public function getStr(){

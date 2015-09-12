@@ -1,0 +1,14 @@
+services:
+#    SERVICE DE L'APPLICATION
+    parameters:
+        class: App\Lib\Services\ParametersService
+    twig:
+        class: App\Lib\Services\TwigService
+    doctrine:
+        class: App\Lib\Services\DoctrineService
+        arguments: ["@parameters"]
+
+#    SERVICE PERSO
+    myservice:
+        class:     Src\Services\MyService
+        arguments: ["str de test"]

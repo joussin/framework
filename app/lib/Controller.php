@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Lib;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Class Controller
@@ -12,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class Controller{
 
-    //conteneur de service
     private $container;
 
     public function __construct(){
@@ -23,22 +23,12 @@ abstract class Controller{
 //            return $collection = $loader->load('routing.yml');
 //        };
 
-
         $container = new ContainerBuilder();
 
-        //service du coeur
-        $container->register('parameters', 'App\Lib\Services\ParametersService');
-        $container->register('twig', 'App\Lib\Services\TwigService');
-        $container->setDefinition('doctrine', new Definition(
-            'App\Lib\Services\DoctrineService',
-            array(new Reference('parameters'))
-        ));
-
-        //service de mon application
-        $container->register('myservice', 'Src\Services\MyService');
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
+        $loader->load('../config/services.yml');
 
         $this->container =  $container;
-
 
     }
     /**
