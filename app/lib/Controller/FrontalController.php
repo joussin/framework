@@ -22,7 +22,7 @@ class FrontalController{
 
     public function __construct(){
 
-        $locator = new FileLocator(array(ROOT_PATH."/app/config"));
+        $locator = new FileLocator(array(ROOT_PATH."/src/config"));
         $loader = new YamlFileLoader($locator);
         $routes = $loader->load('routing.yml');
 

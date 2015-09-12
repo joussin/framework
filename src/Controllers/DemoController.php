@@ -10,6 +10,7 @@ final class DemoController extends AbstractController
 
     public  function indexAction($name){
 
+        echo $this->getContainer()->get('demoservice')->getStr();
 
         $product = new Demo();
         $product->setName('Stéphane');
@@ -20,7 +21,7 @@ final class DemoController extends AbstractController
         $em->flush();
 
 
-        $link = $this->getContainer()->get('router')->generateUrl('route1',array('name'=> $name));
+        $link = $this->getContainer()->get('router')->generateUrl('route_1',array('name'=> $name));
 
         return  $this->render("Demo/index.html.twig",
             array(

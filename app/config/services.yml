@@ -9,8 +9,3 @@ services:
     doctrine:
         class: App\Lib\Services\DoctrineService
         arguments: ["@parameters"]
-
-#    SERVICE PERSO
-    demoservice:
-        class:     Src\Services\DemoService
-        arguments: ["str de test"]

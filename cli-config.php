@@ -8,7 +8,7 @@ require_once "vendor/autoload.php";
 $paths = array(__DIR__."/src/Entities");
 
 $parser = new \Symfony\Component\Yaml\Parser();
-$parameters =  $parser->parse(file_get_contents(__DIR__.'/app/config/parameters.yml'));
+$parameters =  $parser->parse(file_get_contents(__DIR__.'/src/config/parameters.yml'));
 
 
 // the connection configuration

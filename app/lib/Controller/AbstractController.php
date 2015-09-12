@@ -22,6 +22,8 @@ abstract class AbstractController{
         $container = new ContainerBuilder();
         $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/app/config'));
         $loader->load('services.yml');
+        $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/src/config'));
+        $loader->load('services.yml');
         $container->compile();
         $this->container =  $container;
 
