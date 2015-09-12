@@ -24,7 +24,12 @@ class TwigService{
             );
         }
 
-        $loader = new \Twig_Loader_Filesystem(ROOT_PATH.'/src/Views');
+        $loader = new \Twig_Loader_Filesystem(
+            array(
+                ROOT_PATH.'/src/Views',
+                ROOT_PATH.'/app/lib/Views',
+            )
+        );
         $this->twig = new \Twig_Environment($loader, $options);
 
     }

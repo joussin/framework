@@ -1,10 +1,10 @@
 <?php
 namespace Src\Controllers;
 
-use App\Lib\Controller;
+use App\Lib\Controller\AbstractController;
 use Src\Entities\Product;
 
-final class TestController extends Controller
+final class TestController extends AbstractController
 {
 
 

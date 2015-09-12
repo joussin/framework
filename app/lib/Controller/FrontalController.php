@@ -5,7 +5,7 @@
  * Date: 06/09/15
  * Time: 18:36
  */
-namespace App\Lib;
+namespace App\Lib\Controller;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\EventDispatcher\EventDispatcher;

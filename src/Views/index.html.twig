@@ -1,17 +1,14 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Hello {{ name }}</title>
+{% extends "base.html.twig" %}
 
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ parent() }}
     <link href="{{ web_path }}/css/style.css" rel="stylesheet" />
-</head>
-<body>
+{% endblock %}
+{% block content %}
     <h1>{{ name }}</h1>
 
-<p>
-<a href="{{ link }}">lien généré ver cette route</a>
-</p>
-
-</body>
-</html>
+    <p>
+    <a href="{{ link }}">lien généré ver cette route</a>
+    </p>
+{% endblock %}

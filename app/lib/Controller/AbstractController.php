@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Lib;
+namespace App\Lib\Controller;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class Controller
  * @package App\Lib
  */
-abstract class Controller{
+abstract class AbstractController{
 
     private $container;
     private $asset_directory;
