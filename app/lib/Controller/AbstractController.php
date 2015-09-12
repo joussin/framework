@@ -49,6 +49,9 @@ abstract class AbstractController{
      * @return Response
      */
     public function render($htmlFile,$arguments){
+
+        $arguments["web_path"] = $this->getAssetDirectory();
+
         return new Response( $this->container->get('twig')->getTwig()->render($htmlFile, $arguments));
     }
 

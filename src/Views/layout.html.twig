@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheet %}
+    <link href="{{ web_path }}/css/style.css" rel="stylesheet" />
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block body %}
+
+    <header>{% block header %}{% endblock %}</header>
+
+    <aside>{% block sidebar %}{% endblock %}</aside>
+
+    <div class="content">{% block content %}{% endblock %}</div>
+
+    <footer>{% block footer %}{% endblock %}</footer>
+
+{% endblock %}

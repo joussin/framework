@@ -3,16 +3,16 @@
 <head>
     {% block head %}
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="style.css" />
-        <title>{% block title %}{% endblock %} - My Webpage</title>
+        <title>{% block title %}{% endblock %}</title>
+        {% block stylesheet %}{% endblock %}
+        {% block javascript %}{% endblock %}
     {% endblock %}
 </head>
 <body>
-<div id="content">{% block content %}{% endblock %}</div>
-<div id="footer">
-    {% block footer %}
 
-    {% endblock %}
-</div>
+
+{% block body %}{% endblock %}
+
+
 </body>
 </html>

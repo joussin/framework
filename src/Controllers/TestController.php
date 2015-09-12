@@ -29,8 +29,7 @@ final class TestController extends AbstractController
         return  $this->render("index.html.twig",
             array(
                 'name'=> $name,
-                'link'=>$link,
-                'web_path'=>$this->getAssetDirectory()
+                'link'=>$link
             )
         );
 
