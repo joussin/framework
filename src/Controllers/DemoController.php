@@ -2,9 +2,9 @@
 namespace Src\Controllers;
 
 use App\Lib\Controller\AbstractController;
-use Src\Entities\Product;
+use Src\Entities\Demo;
 
-final class TestController extends AbstractController
+final class DemoController extends AbstractController
 {
 
 
@@ -22,7 +22,7 @@ final class TestController extends AbstractController
 
         $link = $this->getContainer()->get('router')->generateUrl('route1',array('name'=> $name));
 
-        return  $this->render("index.html.twig",
+        return  $this->render("Demo/index.html.twig",
             array(
                 'name'=> $name,
                 'link'=>$link

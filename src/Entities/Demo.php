@@ -1,9 +1,9 @@
 <?php
 namespace Src\Entities;
 /**
- * @Entity @Table(name="products", options={"collate"="utf8_unicode_ci"})
+ * @Entity @Table(name="demo", options={"collate"="utf8_unicode_ci"})
  **/
-class Product
+class Demo
 {
     /**
      * @Id @Column(type="integer")

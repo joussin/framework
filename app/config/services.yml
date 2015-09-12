@@ -11,6 +11,6 @@ services:
         arguments: ["@parameters"]
 
 #    SERVICE PERSO
-    myservice:
-        class:     Src\Services\MyService
+    demoservice:
+        class:     Src\Services\DemoService
         arguments: ["str de test"]

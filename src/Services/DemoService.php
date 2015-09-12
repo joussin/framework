@@ -7,7 +7,7 @@
  */
 namespace Src\Services;
 
-class MyService{
+class DemoService{
 
     public $str ;
 
