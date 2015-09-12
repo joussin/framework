@@ -11,13 +11,13 @@ final class DemoController extends AbstractController
     public  function indexAction($name){
 
 
-//        $product = new Product();
-//        $product->setName('Stéphane');
-//        $product->setDate(new \DateTime('now'));
-//
-//        $em = $this->getContainer()->get('doctrine')->getEntityManager();
-//        $em->persist($product);
-//        $em->flush();
+        $product = new Demo();
+        $product->setName('Stéphane');
+        $product->setDate(new \DateTime('now'));
+
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em->persist($product);
+        $em->flush();
 
 
         $link = $this->getContainer()->get('router')->generateUrl('route1',array('name'=> $name));
