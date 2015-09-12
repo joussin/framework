@@ -7,7 +7,9 @@ use Symfony\Component\Debug\ExceptionHandler;
 
 define("DEV_MODE",true);
 define("ROOT_PATH",__DIR__);
-define("INSTALL_DIR","framework");
+define("INSTALL_DIR","framework/");
+define("HOSTNAME","http://localhost/");
+
 
 
 if(DEV_MODE){

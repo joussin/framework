@@ -24,7 +24,7 @@ final class TestController extends Controller
         echo "<br>";
         echo "<br>";
 
-        echo $this->getContainer()->get('router')->generateUrl('route1',array('name'=> $name));
+        echo "<a href='".$this->getContainer()->get('router')->generateUrl('route1',array('name'=> $name))."'>lien généré</a>";
 
         echo "<br>";
         echo "<br>";
