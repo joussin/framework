@@ -5,11 +5,17 @@ use Symfony\Component\Debug\Debug;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 
+define("REWRITE_MODE",false);
 define("DEV_MODE",true);
-define("ROOT_PATH",__DIR__);
-define("INSTALL_DIR","framework/");
-define("HOSTNAME","http://localhost/");
 
+define("ROOT_PATH",__DIR__);
+define("HOSTNAME","localhost");
+
+//pour le router entre autres, acces aux assets etc..
+if(!REWRITE_MODE)
+    define("WEB_PATH","http://".HOSTNAME."/framework/web");
+else
+    define("WEB_PATH","http://".HOSTNAME);
 
 
 if(DEV_MODE){

@@ -24,12 +24,25 @@ class __TwigTemplate_988bb5b2a6052bc82df3f6c1b67bdd4fc5382d044c0812e6528844b13a2
         // line 5
         echo twig_escape_filter($this->env, (isset($context["name"]) ? $context["name"] : null), "html", null, true);
         echo "</title>
+
+    <link href=\"";
+        // line 7
+        echo twig_escape_filter($this->env, (isset($context["web_path"]) ? $context["web_path"] : null), "html", null, true);
+        echo "/css/style.css\" rel=\"stylesheet\" />
 </head>
 <body>
     <h1>";
-        // line 8
+        // line 10
         echo twig_escape_filter($this->env, (isset($context["name"]) ? $context["name"] : null), "html", null, true);
         echo "</h1>
+
+<p>
+<a href=\"";
+        // line 13
+        echo twig_escape_filter($this->env, (isset($context["link"]) ? $context["link"] : null), "html", null, true);
+        echo "\">lien généré ver cette route</a>
+</p>
+cds
 </body>
 </html>";
     }
@@ -46,6 +59,6 @@ class __TwigTemplate_988bb5b2a6052bc82df3f6c1b67bdd4fc5382d044c0812e6528844b13a2
 
     public function getDebugInfo()
     {
-        return array (  31 => 8,  25 => 5,  19 => 1,);
+        return array (  42 => 13,  36 => 10,  30 => 7,  25 => 5,  19 => 1,);
     }
 }

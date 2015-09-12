@@ -16,11 +16,14 @@ class RouterService{
 
     private $routes;
 
+
     public function __construct(){
 
+        //generation de routeCollection
         $locator = new FileLocator(array(ROOT_PATH."/app/config"));
         $loader = new YamlFileLoader($locator);
         $this->routes = $loader->load('routing.yml');
+
     }
 
     /**
@@ -29,8 +32,7 @@ class RouterService{
      * @return string
      */
     public function generateUrl($route_alias,$args){
-        $context = new RequestContext(HOSTNAME.INSTALL_DIR."web");
-//        $context = new RequestContext();
+        $context = new RequestContext(WEB_PATH);
         $generator = new UrlGenerator($this->routes, $context);
         return $generator->generate($route_alias, $args);
     }
@@ -42,5 +44,9 @@ class RouterService{
     {
         return $this->routes;
     }
+
+
+
+
 
 }

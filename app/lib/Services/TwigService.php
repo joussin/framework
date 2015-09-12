@@ -11,13 +11,21 @@ class TwigService{
 
     private $twig;
 
-
     public function __construct(){
 
+        if(DEV_MODE){
+            $options = array(
+                'cache' => false
+            );
+        }
+        else{
+            $options = array(
+                'cache' => ROOT_PATH.'/app/cache/twig',
+            );
+        }
+
         $loader = new \Twig_Loader_Filesystem(ROOT_PATH.'/src/Views');
-        $this->twig = new \Twig_Environment($loader, array(
-            'cache' => ROOT_PATH.'/app/cache/twig',
-        ));
+        $this->twig = new \Twig_Environment($loader, $options);
 
     }
 

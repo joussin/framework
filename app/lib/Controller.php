@@ -14,16 +14,19 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class Controller{
 
     private $container;
+    private $asset_directory;
 
     public function __construct(){
 
+        //création du conteneur de sevice
         $container = new ContainerBuilder();
-
         $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/app/config'));
         $loader->load('services.yml');
         $container->compile();
-
         $this->container =  $container;
+
+        //generation du repertoire des assets
+        $this->asset_directory = WEB_PATH;
     }
 
     /**
@@ -33,7 +36,13 @@ abstract class Controller{
     {
         return $this->container;
     }
-
+    /**
+     * @return string
+     */
+    public function getAssetDirectory()
+    {
+        return $this->asset_directory;
+    }
     /**
      * @param $htmlFile
      * @param $arguments
