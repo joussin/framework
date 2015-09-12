@@ -3,13 +3,12 @@ namespace Src\Controllers;
 
 use App\Lib\Controller;
 use Src\Entities\Product;
-use Symfony\Component\HttpFoundation\Request;
 
 final class TestController extends Controller
 {
 
 
-    public  function indexAction($name, Request $request){
+    public  function indexAction($name){
 
         echo  $this->getContainer()->get('myservice')->getStr();
 
