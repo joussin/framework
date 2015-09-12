@@ -5,7 +5,6 @@ require_once "vendor/autoload.php";
 
 define("ROOT_PATH",__DIR__);
 define("INSTALL_DIR","framework");
-define("PUBLIC_DIR","web");
 
 
 //pour le cli tools de doctrine

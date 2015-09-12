@@ -29,7 +29,7 @@ class RouterService{
      * @return string
      */
     public function generateUrl($route_alias,$args){
-        $context = new RequestContext(INSTALL_DIR."/".PUBLIC_DIR);
+        $context = new RequestContext(INSTALL_DIR."/web");
         $generator = new UrlGenerator($this->routes, $context);
         return $generator->generate($route_alias, $args);
     }
