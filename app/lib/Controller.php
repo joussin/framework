@@ -17,20 +17,15 @@ abstract class Controller{
 
     public function __construct(){
 
-//        $pimple['routes'] = function () {
-//            $locator = new FileLocator(array(ROOT_PATH."/config"));
-//            $loader = new YamlFileLoader($locator);
-//            return $collection = $loader->load('routing.yml');
-//        };
-
         $container = new ContainerBuilder();
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
-        $loader->load('../config/services.yml');
+        $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/app/config'));
+        $loader->load('services.yml');
+        $container->compile();
 
         $this->container =  $container;
-
     }
+
     /**
      * @return mixed
      */
@@ -38,7 +33,6 @@ abstract class Controller{
     {
         return $this->container;
     }
-
 
     /**
      * @param $htmlFile

@@ -9,7 +9,7 @@ final class TestController extends Controller
 {
 
 
-    public  function indexAction($id, Request $request){
+    public  function indexAction($name, Request $request){
 
         echo  $this->getContainer()->get('myservice')->getStr();
 
@@ -22,7 +22,15 @@ final class TestController extends Controller
         $em->flush();
 
 
-          return  $this->render("index.html.twig",array('name'=> $id));
+        echo "<br>";
+        echo "<br>";
+
+        echo $this->getContainer()->get('router')->generateUrl('route1',array('name'=> $name));
+
+        echo "<br>";
+        echo "<br>";
+
+        return  $this->render("index.html.twig",array('name'=> $name));
 
     }
 

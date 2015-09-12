@@ -2,6 +2,8 @@ services:
 #    SERVICE DE L'APPLICATION
     parameters:
         class: App\Lib\Services\ParametersService
+    router:
+        class: App\Lib\Services\RouterService
     twig:
         class: App\Lib\Services\TwigService
     doctrine:

@@ -20,15 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FrontalController{
 
-
-
     public function __construct(){
-
-        $this->getCurrentController();
-    }
-
-    public function getCurrentController(){
-
 
         $locator = new FileLocator(array(ROOT_PATH."/app/config"));
         $loader = new YamlFileLoader($locator);
@@ -50,5 +42,4 @@ class FrontalController{
         $kernel->terminate($request, $response);
 
     }
-
 }
