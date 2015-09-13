@@ -7,6 +7,15 @@
  */
 namespace App\Lib\Services;
 
+use Symfony\Bridge\Twig\Extension\FormExtension;
+use Symfony\Bridge\Twig\Extension\TranslationExtension;
+use Symfony\Bridge\Twig\Form\TwigRenderer;
+use Symfony\Bridge\Twig\Form\TwigRendererEngine;
+use Symfony\Component\Form\Extension\Csrf\CsrfProvider\SessionCsrfProvider;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Translation\Loader\XliffFileLoader;
+use Symfony\Component\Translation\Translator;
+
 class TwigService{
 
     private $twig;
@@ -26,10 +35,33 @@ class TwigService{
 
         $loader = new \Twig_Loader_Filesystem(
             array(
-                ROOT_PATH.'/src/Views'
+                ROOT_PATH.'/src/Views',
+                ROOT_PATH.'/src/Views/Form'
             )
         );
         $this->twig = new \Twig_Environment($loader, $options);
+
+        //form layout
+        $formEngine = new TwigRendererEngine(array('form_div_layout.html.twig'));
+        $formEngine->setEnvironment($this->twig);
+
+        //security
+        $csrfSecret = md5(rand(0,10000000000000000));
+        $session = new Session();
+        $csrfProvider = new SessionCsrfProvider($session, $csrfSecret);
+        $this->twig->addExtension(
+            new FormExtension(new TwigRenderer($formEngine, $csrfProvider))
+        );
+
+        //translator
+        $translator = new Translator('en');
+        $translator->addLoader('xlf', new XliffFileLoader());
+        $translator->addResource(
+            'xlf',
+            ROOT_PATH.'src/translation/messages.en.xlf',
+            'en'
+        );
+        $this->twig->addExtension(new TranslationExtension($translator));
 
     }
 

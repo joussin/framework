@@ -37,70 +37,23 @@ final class DemoController extends AbstractController
 //        $em->flush();
 
 
-
-
-
-
-
-        $defaultFormTheme = 'form_div_layout.html.twig';
-        $vendorDir = realpath(ROOT_PATH. '/vendor');
-        $vendorTwigBridgeDir = $vendorDir . '/symfony/twig-bridge';
-        $viewsDir = realpath(ROOT_PATH . 'src/Views');
-
-        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem(array(
-            $viewsDir,
-            $vendorTwigBridgeDir . '/Resources/views/Form',
-        )));
-        $formEngine = new TwigRendererEngine(array($defaultFormTheme));
-        $formEngine->setEnvironment($twig);
-
-
-        $csrfSecret = "1";
-        $session = new Session();
-        $csrfProvider = new SessionCsrfProvider($session, $csrfSecret);
-        $twig->addExtension(
-            new FormExtension(new TwigRenderer($formEngine, $csrfProvider))
-        );
-
-
-
-        $translator = new Translator('en');
-        $translator->addLoader('xlf', new XliffFileLoader());
-        $translator->addResource(
-            'xlf',
-            ROOT_PATH.'src/translation/messages.en.xlf',
-            'en'
-        );
-        $twig->addExtension(new TranslationExtension($translator));
-
-
-
-
-
-
         $formFactory = Forms::createFormFactoryBuilder()->getFormFactory();
+
         $form = $formFactory->createBuilder()
             ->add('task', 'text')
             ->add('dueDate', 'date')
             ->getForm();
 
-        echo $twig->render('Demo/new.html.twig', array(
-            'form' => $form->createView(),
-        ));
 
+        $link = $this->getContainer()->get('router')->generateUrl('route_1',array('name'=> $name));
 
-return new Response("lk,m");
-
-
-
-//        $link = $this->getContainer()->get('router')->generateUrl('route_1',array('name'=> $name));
-//
-//        return  $this->render("Demo/index.html.twig",
-//            array(
-//                'name'=> $name,
-//                'link'=>$link
-//            )
-//        );
+        return  $this->render("Demo/index.html.twig",
+            array(
+                'name'=> $name,
+                'link'=>$link,
+                'form' => $form->createView(),
+            )
+        );
 
     }
 
