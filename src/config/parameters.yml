@@ -1,6 +1,6 @@
 db:
   driver: 'pdo_mysql'
   user: 'root'
-  password: ''
-  dbname: 'framework'
+  password: 'troiswa'
+  dbname: 'doctrine'
   charset: 'UTF8'

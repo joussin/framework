@@ -15,6 +15,14 @@
         <input type="submit" />
     </form>
 
+    <h1>Entity demo</h1>
+    <ul>
+        {% for demo in demos %}
+            <li>{{ demo.name }} -> {{ demo.date|date }}</li>
+        {% endfor %}
+    </ul>
+
+
 
 {% endblock %}
 
