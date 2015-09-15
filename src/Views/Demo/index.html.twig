@@ -7,6 +7,7 @@
     <h1>{{ name }}</h1>
     <p>
     <a href="{{ link }}">lien généré ver cette route</a>
+
     </p>
 
     <form action="" method="post" {{ form_enctype(form) }}>
@@ -18,9 +19,10 @@
     <h1>Entity demo</h1>
     <ul>
         {% for demo in demos %}
-            <li>{{ demo.name }} -> {{ demo.date|date }}</li>
+            <li>{{ demo.name }} -> {{ demo.date|date }} : {{ demo.id }}</li>
         {% endfor %}
     </ul>
+
 
 
 

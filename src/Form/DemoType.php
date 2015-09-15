@@ -18,7 +18,9 @@ class DemoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name');
+        $builder->add('name',null,array(
+//            'mapped' => false
+        ));
         $builder->add('date', 'datetime');
     }
 

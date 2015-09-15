@@ -19,6 +19,13 @@ class Demo
      **/
     protected $date;
 
+
+    public function __construct()
+    {
+
+    }
+
+
     /**
      * @return mixed
      */
