@@ -7,7 +7,8 @@ use Src\Entities\Demo;
 
 use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 
 final class DemoController extends AbstractController
 {
@@ -32,17 +33,22 @@ final class DemoController extends AbstractController
         $formFactory = Forms::createFormFactoryBuilder()->getFormFactory();
 
         $form = $formFactory->createBuilder()
-            ->add('task', 'text')
+            ->add('task', 'text', array(
+                'required' => false,
+//                'constraints' => new NotBlank(),
+            ))
             ->add('dueDate', 'date')
             ->getForm();
 
-//        $form->handleRequest($request);
-//
-//        if ($form->isValid()) {
-//            echo 'FORM VALID';
-//            $data = $form->getData();
-//            var_dump($data);
-//        }
+
+
+         $form->submit($request->request->get($form->getName()));
+
+        if ($form->isValid()) {
+            echo 'FORM VALID';
+             $data = $form->getViewData();
+             var_dump($data);
+        }
 
 
         return  $this->render("Demo/index.html.twig",
@@ -52,11 +58,5 @@ final class DemoController extends AbstractController
                 'form' => $form->createView(),
             )
         );
-
     }
-
-
-
-
-
 }
