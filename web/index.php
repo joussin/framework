@@ -5,6 +5,7 @@ require_once "../vendor/autoload.php";
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+use App\Lib\Controller\FrontalController;
 
 define("REWRITE_MODE",false);
 define("DEV_MODE",true);
@@ -32,4 +33,4 @@ if(DEV_MODE){
     error_reporting(0);
 }
 
-$controllerFrontal = new \App\Lib\Controller\FrontalController();
+$controllerFrontal = new FrontalController();
