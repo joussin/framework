@@ -17,30 +17,13 @@ final class SecurityController extends AbstractController
 {
 
 
-    public  function indexAction(Request $request){
+    public  function loginAction(Request $request){
 
 
 
 
-//        $map = new FirewallMap();
 
-//        $requestMatcher = new RequestMatcher('^/secured-area/');
-//        $listener = new SomeAuthenticationListener();
-//        $listeners = array($listener);
 
-//        $exceptionListener = new \Symfony\Component\Security\Http\Firewall\ExceptionListener($this);
-
-//        $map->add($requestMatcher, $listeners, $exceptionListener);
-//
-//// the EventDispatcher used by the HttpKernel
-//        $dispatcher = new EventDispatcher();
-
-//        $firewall = new Firewall($map, $dispatcher);
-
-//        $dispatcher->addListener(KernelEvents::REQUEST, array($firewall, 'onKernelRequest'));
-//
-//
-//
-        return  $this->render("Security/index.html.twig");
+        return  $this->render("Security/login.html.twig");
     }
 }

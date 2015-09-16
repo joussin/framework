@@ -1,6 +1,14 @@
+
+
 route_1:
     path:     /demo/{name}
     defaults: { _controller: 'Src\Controllers\DemoController::indexAction' }
-security_1:
-    path:     /security
-    defaults: { _controller: 'Src\Controllers\SecurityController::indexAction' }
+
+
+
+
+#LOGIN
+
+security_login:
+    path:     /login
+    defaults: { _controller: 'Src\Controllers\SecurityController::loginAction' }
