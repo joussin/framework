@@ -50,7 +50,7 @@ abstract class AbstractController{
      * @param $arguments
      * @return Response
      */
-    public function render($htmlFile,$arguments){
+    public function render($htmlFile,$arguments = array()){
 
         $arguments["web_path"] = $this->getAssetDirectory();
 
