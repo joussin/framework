@@ -30,13 +30,28 @@ class FirewallListener implements EventSubscriberInterface
         $parameters = $this->matcher->matchRequest($request);
 
         if (in_array($parameters["_route"], $this->protectedRoutes )){
-            $parameters = array(
-                "_controller"=> 'Src\Controllers\SecurityController::loginAction',
-                "_route"=>  "security_login"
-            );
-            $request->attributes->add($parameters);
-            $request->attributes->set('_route_params', $parameters);
-            $request->attributes->set('name', "name");
+
+
+
+            if (!isset($_SERVER['PHP_AUTH_USER'])) {
+                header('WWW-Authenticate: Basic realm="My Realm"');
+                header('HTTP/1.0 401 Unauthorized');
+                echo 'Texte utilisé si le visiteur utilise le bouton d\'annulation';
+                exit;
+            } else {
+                echo "<p>Bonjour, {$_SERVER['PHP_AUTH_USER']}.</p>";
+
+            }
+
+//            $parameters = array(
+//                "_controller"=> 'Src\Controllers\SecurityController::loginAction',
+//                "_route"=>  "security_login"
+//            );
+//            $request->attributes->add($parameters);
+//            $request->attributes->set('_route_params', $parameters);
+//            $request->attributes->set('name', "name");
+
+
         }
     }
 
