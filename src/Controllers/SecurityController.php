@@ -20,10 +20,6 @@ final class SecurityController extends AbstractController
     public  function loginAction(Request $request){
 
 
-
-
-
-
         return  $this->render("Security/login.html.twig");
     }
 }

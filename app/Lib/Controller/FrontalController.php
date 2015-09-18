@@ -7,7 +7,7 @@
  */
 namespace App\Lib\Controller;
 
-use App\Lib\Security\FirewallListener;
+use App\Lib\Security\AuthListener;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -33,7 +33,7 @@ class FrontalController{
         $matcher = new UrlMatcher($routes, new RequestContext());
 
         $dispatcher = new EventDispatcher();
-        $dispatcher->addSubscriber(new FirewallListener($matcher));
+        $dispatcher->addSubscriber(new AuthListener($matcher));
         $dispatcher->addSubscriber(new RouterListener($matcher));
 
         $resolver = new ControllerResolver();
