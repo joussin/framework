@@ -4,13 +4,14 @@
 namespace App\Lib\Security;
 
 
-use Symfony\Component\HttpFoundation\Request;
+ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\InMemoryUserProvider;
 use Symfony\Component\Security\Core\User\UserChecker;
@@ -61,6 +62,7 @@ class AuthListener implements EventSubscriberInterface
 
 
             $providerKey = "mysecuritystr";
+            $providerKey = $parameters["_route"];
 
 
 
@@ -73,12 +75,19 @@ class AuthListener implements EventSubscriberInterface
 
 
 
+//            'password'
+//            en md5:
+//            5f4dcc3b5aa765d61d8327deb882cf99
+//            en sha512
+//            b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86
+
+
             $userProvider = new InMemoryUserProvider(
                 array(
-                    'admin' => array(
-                        // password is "foo"
-                        'password' => '5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg==',
-                        'roles'    => array('ROLE_ADMIN'),
+                    'stef' => array(
+                        // password is "password"
+                        'password' => 'password',
+                        'roles'    => array('ROLE_USER'),
                     ),
                 )
             );
@@ -86,10 +95,9 @@ class AuthListener implements EventSubscriberInterface
             // for some extra checks: is account enabled, locked, expired, etc.?
             $userChecker = new UserChecker();
 
-            // an array of password encoders (see below)
-            $defaultEncoder = new MessageDigestPasswordEncoder('sha512', true, 5000);
+            $defaultEncoder = new PlaintextPasswordEncoder();
             $encoders = array(
-                'Symfony\\Component\\Security\\Core\\User\\User' => $defaultEncoder
+                'Symfony\\Component\\Security\\Core\\User\\User' => $defaultEncoder,
             );
             $encoderFactory = new EncoderFactory($encoders);
             $provider = new DaoAuthenticationProvider(
@@ -124,6 +132,7 @@ class AuthListener implements EventSubscriberInterface
         if (
             in_array($parameters["_route"], $this->firewall)
         ){
+//            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
 
             $parameters = array(
                 "_controller"=> 'Src\Controllers\SecurityController::loginAction',

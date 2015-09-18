@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Lib\Controller;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -17,14 +15,8 @@ abstract class AbstractController{
     private $asset_directory;
 
     public function __construct(){
-
+        global $container;
         //création du conteneur de sevice
-        $container = new ContainerBuilder();
-        $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/app/config'));
-        $loader->load('services.yml');
-        $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/src/config'));
-        $loader->load('services.yml');
-        $container->compile();
         $this->container =  $container;
 
         //generation du repertoire des assets

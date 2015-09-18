@@ -5,7 +5,14 @@ require_once "../vendor/autoload.php";
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
 use App\Lib\Controller\FrontalController;
+
+
 
 define("REWRITE_MODE",false);
 define("DEV_MODE",true);
@@ -32,5 +39,15 @@ if(DEV_MODE){
 }else{
     error_reporting(0);
 }
+
+
+$container = new ContainerBuilder();
+$loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/app/config'));
+$loader->load('services.yml');
+$loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/src/config'));
+$loader->load('services.yml');
+$container->compile();
+
+
 
 $controllerFrontal = new FrontalController();

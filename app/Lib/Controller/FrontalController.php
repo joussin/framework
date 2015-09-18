@@ -33,7 +33,10 @@ class FrontalController{
         $matcher = new UrlMatcher($routes, new RequestContext());
 
         $dispatcher = new EventDispatcher();
+
+
         $dispatcher->addSubscriber(new AuthListener($matcher));
+
         $dispatcher->addSubscriber(new RouterListener($matcher));
 
         $resolver = new ControllerResolver();
