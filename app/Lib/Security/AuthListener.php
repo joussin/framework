@@ -4,9 +4,10 @@
 namespace App\Lib\Security;
 
 
- use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
@@ -109,30 +110,30 @@ class AuthListener implements EventSubscriberInterface
 
 
 
+            $providers = array(
+                $provider
+            );
+
+            $authenticationManager = new AuthenticationProviderManager($providers);
+
             try {
-                $authenticatedToken = $provider->authenticate($unAuthToken);
+                $authenticatedToken = $authenticationManager->authenticate($unAuthToken);
                 echo "ok";
             } catch (AuthenticationException $failed) {
-                // authentication failed
+                // authentification a échoué
                 echo "authentication failed";
             }
+
 
 
 
         }
 
 
-
-
-
-
-
-
         //comparaison avec la liste des routes du firewall
         if (
-            in_array($parameters["_route"], $this->firewall)
+        in_array($parameters["_route"], $this->firewall)
         ){
-//            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
 
             $parameters = array(
                 "_controller"=> 'Src\Controllers\SecurityController::loginAction',

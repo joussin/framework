@@ -36,7 +36,6 @@ class FrontalController{
 
 
         $dispatcher->addSubscriber(new AuthListener($matcher));
-
         $dispatcher->addSubscriber(new RouterListener($matcher));
 
         $resolver = new ControllerResolver();
