@@ -4,16 +4,20 @@
 namespace App\Lib\Security;
 
 
-use Symfony\Component\HttpFoundation\Request;
+ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
+use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
+ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+ use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\User\InMemoryUserProvider;
 use Symfony\Component\Security\Core\User\UserChecker;
 
@@ -22,23 +26,11 @@ class AuthListener implements EventSubscriberInterface
 {
 
     //AUTH var
-    public $firewall = array();
-
-
-
-
-
 
     public $matcher;
+
     public  function __construct($matcher){
         $this->matcher =$matcher;
-
-
-        $this->firewall = array(
-            "route_1"
-        );
-
-
     }
 
 
@@ -46,9 +38,6 @@ class AuthListener implements EventSubscriberInterface
     {
         $request = $event->getRequest();
         $parameters = $this->matcher->matchRequest($request);
-
-
-
 
 
         //on écoute si les infos de login son passé en POST
@@ -75,20 +64,12 @@ class AuthListener implements EventSubscriberInterface
             );
 
 
-
-//            'password'
-//            en md5:
-//            5f4dcc3b5aa765d61d8327deb882cf99
-//            en sha512
-//            b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86
-
-
             $userProvider = new InMemoryUserProvider(
                 array(
                     'stef' => array(
                         // password is "password"
                         'password' => 'password',
-                        'roles'    => array('ROLE_USER'),
+                        'roles'    => array('ROLE_ADMIN'),
                     ),
                 )
             );
@@ -118,37 +99,31 @@ class AuthListener implements EventSubscriberInterface
 
             try {
                 $authenticatedToken = $authenticationManager->authenticate($unAuthToken);
-                echo "ok";
+                echo "etape 1: authentifié <br>";
+
+
+
+
+                $roleVoter = new RoleVoter('ROLE_');
+                $roleVoter->vote($authenticatedToken, new \stdClass(), array('ROLE_ADMIN'));
+                $voters = array($roleVoter);
+                $accessDecisionManager = new AccessDecisionManager(
+                    $voters
+                );
+
+                $securityContext = new SecurityContext(
+                    $authenticationManager,
+                    $accessDecisionManager
+                );
+                $securityContext->setToken($authenticatedToken);
+
+
+
             } catch (AuthenticationException $failed) {
                 // authentification a échoué
-                echo "authentication failed";
+
             }
-
-
-
-
         }
-
-
-        //comparaison avec la liste des routes du firewall
-        if (
-        in_array($parameters["_route"], $this->firewall)
-        ){
-
-            $parameters = array(
-                "_controller"=> 'Src\Controllers\SecurityController::loginAction',
-                "_route"=>  "security_login"
-            );
-            $request->attributes->add($parameters);
-            $request->attributes->set('_route_params', $parameters);
-
-
-        }
-
-
-
-
-
     }
 
     public static function getSubscribedEvents()
