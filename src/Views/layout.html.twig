@@ -14,6 +14,12 @@
 
 {% block body %}
 
+    {%  if current_user == "anonymous" %}
+
+        not logged  <b>{{ current_user }}</b>
+    {% else %}
+        logged as <b>{{ current_user.username }}</b>
+    {% endif %}
 
 
     <header>{% block header %}{% endblock %}</header>

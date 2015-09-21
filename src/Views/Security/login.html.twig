@@ -5,25 +5,32 @@
 
 {% block content %}
 
-    login
+    {%  if current_user == "anonymous" %}
 
-    <form action="" method="post">
+        <h1>login</h1>
+        <form action="" method="post">
 
-        <label for="_username" >Username</label><br />
-        <input type="text" name="_username" />
-        <br />
-        <br />
+            <label for="_username" >Username</label><br />
+            <input type="text" name="_username" />
+            <br />
+            <br />
 
-        <label for="_password" >Password</label><br />
-        <input type="text" name="_password" />
-        <br />
-        <br />
+            <label for="_password" >Password</label><br />
+            <input type="text" name="_password" />
+            <br />
+            <br />
 
 
-        <input type="submit" name="connection" />
+            <input type="submit" name="connection" />
 
-    </form>
+        </form>
 
+        <p>
+            {{ error }}
+        </p>
+    {% else %}
+        logged as <b>{{ current_user.username }}</b>
+    {% endif %}
 
 {% endblock %}
 

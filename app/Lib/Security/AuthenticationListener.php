@@ -86,8 +86,7 @@ class AuthenticationListener implements EventSubscriberInterface
 
                 }
                 catch (AuthenticationException $failed) {
-                    echo $failed->getMessage();
-
+                    $this->container->get('session')->set('security_login_error',$failed->getMessage() );
                 }
             }
         }
