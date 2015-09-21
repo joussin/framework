@@ -9,3 +9,6 @@ services:
     doctrine:
         class: App\Lib\Services\DoctrineService
         arguments: ["@parameters"]
+    session:
+        class: Symfony\Component\HttpFoundation\Session\Session
+        calls:

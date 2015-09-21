@@ -20,3 +20,6 @@ secured_route_2:
 security_login:
     path:     /login
     defaults: { _controller: 'Src\Controllers\SecurityController::loginAction' }
+security_logout:
+    path:     /logout
+    defaults: { _controller: 'Src\Controllers\SecurityController::logoutAction' }

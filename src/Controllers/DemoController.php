@@ -56,9 +56,29 @@ final class DemoController extends AbstractController
     }
 
     public  function secured1Action(){
+
+        echo "Logged as ";
+        $user = $this->getContainer()->get('security.context')->getToken()->getUser();
+
+        if($user == 'anonymous')
+            echo $user;
+        else{
+            echo $user->getUsername();
+        }
+        echo "<br >";
+
         return new Response("secured page 1");
     }
     public  function secured2Action(){
+
+        $user = $this->getContainer()->get('security.context')->getToken()->getUser();
+        echo "Logged as ";
+        if($user == 'anonymous')
+            echo $user;
+        else{
+            echo $user->getUsername();
+        }
+        echo "<br >";
         return new Response("secured page 2");
     }
 

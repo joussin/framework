@@ -7,6 +7,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcher;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\EventListener\ExceptionListener;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Http\Firewall;
@@ -21,5 +22,12 @@ final class SecurityController extends AbstractController
 
 
         return  $this->render("Security/login.html.twig");
+    }
+    public  function logoutAction(Request $request){
+
+
+        $this->getContainer()->get('session')->remove('security_token');
+
+        return new Response();
     }
 }

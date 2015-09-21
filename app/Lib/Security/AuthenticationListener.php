@@ -2,18 +2,24 @@
 
 
 namespace App\Lib\Security;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
+use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-class AuthenticationListener implements ListenerInterface
+class AuthenticationListener implements EventSubscriberInterface
 {
     /**
-     * @var SecurityContextInterface
+     * @var
      */
-    private $securityContext;
+    private $container;
 
     /**
      * @var AuthenticationManagerInterface
@@ -25,25 +31,75 @@ class AuthenticationListener implements ListenerInterface
      */
     private $providerKey;
 
-    // ...
+    private $anonymousKey;
 
-    public function handle(GetResponseEvent $event)
+
+    /**
+     * @var
+     */
+    private $roleVoter;
+
+
+
+    public function __construct($providerKey,$anonymousKey,$authenticationManager,$roleVoter,$container){
+
+        $this->authenticationManager = $authenticationManager;
+        $this->providerKey = $providerKey;
+        $this->anonymousKey = $anonymousKey;
+        $this->roleVoter = $roleVoter;
+        $this->container = $container;
+
+    }
+
+    public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
 
-        $username = "stef";
-        $password = "password";
+        $token = $this->container->get('session')->get('security_token');
+        if($token!= NULL){
+            $this->container->get('security.context')->setToken($token);
 
-        $unauthenticatedToken = new UsernamePasswordToken(
-            $username,
-            $password,
-            $this->providerKey
+        }else{
+            $token = new AnonymousToken( $this->anonymousKey, 'anonymous', array());
+            $token = $this->authenticationManager->authenticate($token);
+            $this->container->get('security.context')->setToken($token);
+
+            if(
+                NULL !== $request->request->get('_username') &&
+                NULL !== $request->request->get('_password')
+            ) {
+                $user = $request->request->get('_username');
+                $pass = $request->request->get('_password');
+                $referer = $request->request->get('_referer');
+
+                $unAuthToken = new UsernamePasswordToken(
+                    $user,
+                    $pass,
+                    $this->providerKey
+                );
+
+                try{
+                    $authenticatedToken = $this->authenticationManager->authenticate($unAuthToken);
+//            $this->roleVoter->vote($authenticatedToken, new \stdClass(), array('ROLE_ADMIN'));
+                    $this->container->get('security.context')->setToken($authenticatedToken);
+                    $this->container->get('session')->set('security_token',$authenticatedToken );
+
+                }
+                catch (AuthenticationException $failed) {
+                    echo $failed->getMessage();
+
+                }
+            }
+        }
+
+
+
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return array(
+            'kernel.request' => 'onKernelRequest'
         );
-
-        $authenticatedToken = $this
-            ->authenticationManager
-            ->authenticate($unauthenticatedToken);
-
-        $this->securityContext->setToken($authenticatedToken);
     }
 }
