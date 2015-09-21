@@ -14,8 +14,8 @@ abstract class AbstractController{
     private $container;
     private $asset_directory;
 
-    public function __construct(){
-        global $container;
+    public function __construct($container){
+
         //création du conteneur de sevice
         $this->container =  $container;
 

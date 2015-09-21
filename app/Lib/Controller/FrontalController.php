@@ -11,6 +11,7 @@ use App\Lib\Security\AuthenticationListener;
 
 use App\Lib\Security\FirewallListener;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
@@ -39,7 +40,15 @@ class FrontalController{
 
     public function __construct(){
 
-        global $container;
+
+
+
+        $container = new ContainerBuilder();
+        $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/app/config'));
+        $loader->load('services.yml');
+        $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/src/config'));
+        $loader->load('services.yml');
+
 
 
         $locator = new FileLocator(array(ROOT_PATH."/src/config"));
@@ -131,7 +140,8 @@ class FrontalController{
         $dispatcher->addSubscriber(new RouterListener($matcher));
 
 
-        $resolver = new ControllerResolver();
+        $container->compile();
+        $resolver = new MyControllerResolver($container);
 
         $kernel = new HttpKernel($dispatcher,$resolver);
 
@@ -139,6 +149,8 @@ class FrontalController{
         $response->send();
 
         $kernel->terminate($request, $response);
+
+
 
     }
 
