@@ -18,6 +18,8 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader as YamlFileLoaderDic;
+
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,12 +43,10 @@ class FrontalController{
     public function __construct(){
 
 
-
-
         $container = new ContainerBuilder();
-        $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/app/config'));
+        $loader = new YamlFileLoaderDic($container, new FileLocator(ROOT_PATH.'/app/config'));
         $loader->load('services.yml');
-        $loader = new YamlFileLoader($container, new FileLocator(ROOT_PATH.'/src/config'));
+        $loader = new YamlFileLoaderDic($container, new FileLocator(ROOT_PATH.'/src/config'));
         $loader->load('services.yml');
 
 
