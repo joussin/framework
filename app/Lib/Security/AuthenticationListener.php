@@ -70,7 +70,6 @@ class AuthenticationListener implements EventSubscriberInterface
             ) {
                 $user = $request->request->get('_username');
                 $pass = $request->request->get('_password');
-                $referer = $request->request->get('_referer');
 
                 $unAuthToken = new UsernamePasswordToken(
                     $user,

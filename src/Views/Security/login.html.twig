@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    {%  if current_user == "anonymous" %}
+    {#{%  if current_user == "anonymous" %}#}
 
         <h1>login</h1>
         <form action="" method="post">
@@ -28,9 +28,9 @@
         <p>
             {{ error }}
         </p>
-    {% else %}
-        logged as <b>{{ current_user.username }}</b>
-    {% endif %}
+    {#{% else %}#}
+        {#logged as <b>{{ current_user.username }}</b>#}
+    {#{% endif %}#}
 
 {% endblock %}
 

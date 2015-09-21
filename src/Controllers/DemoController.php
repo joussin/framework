@@ -7,6 +7,7 @@ use Src\Entities\Demo;
 
 use Src\Form\DemoType;
 use Symfony\Component\Form\Forms;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -56,7 +57,9 @@ final class DemoController extends AbstractController
     }
 
     public  function secured1Action(){
-
+        if (!$this->getContainer()->get('security.context')->isGranted('ROLE_USER')) {
+            echo "unauthorized";
+        }
          return new Response("secured page 1");
     }
     public  function secured2Action(){
