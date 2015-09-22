@@ -13,13 +13,11 @@ secured_route_2:
     defaults: { _controller: 'Src\Controllers\DemoController::secured2Action' }
 
 
-
-
-#LOGIN
+#SECURITY
 
 security_login:
     path:     /login
-    defaults: { _controller: 'Src\Controllers\SecurityController::loginAction' }
+    defaults: { _controller: 'App\Lib\Security\SecurityController::loginAction' }
 security_logout:
     path:     /logout
-    defaults: { _controller: 'Src\Controllers\SecurityController::logoutAction' }
+    defaults: { _controller: 'App\Lib\Security\SecurityController::logoutAction' }

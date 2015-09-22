@@ -5,11 +5,13 @@
  * Date: 06/09/15
  * Time: 18:36
  */
+
 namespace App\Lib\Controller;
 
 use App\Lib\Security\AuthenticationListener;
 
 use App\Lib\Security\FirewallListener;
+use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -17,6 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
+
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader as YamlFileLoaderDic;
 
@@ -25,6 +28,8 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
+use Symfony\Component\Security\Core\Role\RoleHierarchy;
 use Symfony\Component\Security\Http\Firewall;
 use Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
@@ -58,29 +63,21 @@ class FrontalController{
 
         $dispatcher = new EventDispatcher();
 
-//--------------------------------------------------------------
+        //--------------------------------------------------------------
 
+        $parser = new Parser();
+        $security_config =  $parser->parse(file_get_contents(ROOT_PATH.'/app/config/security.yml'));
 
         //firwall
-        $firewall = array(
-            'secured_route_1'=>'ROLE_USER',
-            'secured_route_2'=>'ROLE_ADMIN'
-        );
-
-
+        $firewall = $security_config['firewall'];
 
         //PROVIDER
-        $providerKey = "my_security_str";
+        $providerKey = $security_config['providers']['in_memory']['provider_key'];
         $anonymousKey = uniqid();
-        $userProvider = new InMemoryUserProvider(
-            array(
-                'stef' => array(
-                    // password is "password"
-                    'password' => 'password',
-                    'roles'    => array('ROLE_USER'),
-                ),
-            )
-        );
+
+        $userProvider = new InMemoryUserProvider($security_config['providers']['in_memory']['users']);
+
+
         // for some extra checks: is account enabled, locked, expired, etc.?
         $userChecker = new UserChecker();
         $defaultEncoder = new PlaintextPasswordEncoder();
@@ -99,19 +96,20 @@ class FrontalController{
         $authenticationManager = new AuthenticationProviderManager($providers);
 
 
-
         //ACCES MANAGER
-        $roleVoter = new RoleVoter('ROLE_');
+        $hierarchy = $security_config['roles']['hierarchy'];
+        $roleHierarchy = new RoleHierarchy($hierarchy);
+        $roleVoter = new RoleHierarchyVoter($roleHierarchy);
         $voters = array($roleVoter);
+
+
         $accessDecisionManager = new AccessDecisionManager(
             $voters
         );
 
-
         $container->register('security.context', 'Symfony\Component\Security\Core\SecurityContext')
             ->addArgument($authenticationManager)
             ->addArgument($accessDecisionManager);
-
 
 
         $dispatcher->addSubscriber(new AuthenticationListener(
@@ -130,12 +128,9 @@ class FrontalController{
         ));
 
 
-
-//--------------------------------------------------------------
-
+        //--------------------------------------------------------------
 
         $dispatcher->addSubscriber(new RouterListener($matcher));
-
 
         $container->compile();
         $resolver = new MyControllerResolver($container);
@@ -147,7 +142,9 @@ class FrontalController{
 
         $kernel->terminate($request, $response);
 
-
+        var_dump('TOKEN session='.$container->get('session')->get('security_token'));
+        var_dump('TOKEN security context='.$container->get('security.context')->getToken());
+        var_dump($container->getServiceIds());
 
     }
 

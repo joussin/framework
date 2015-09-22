@@ -40,9 +40,9 @@ class FirewallListener implements EventSubscriberInterface
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        if (array_key_exists($current_route, $this->firewall)) {
+        if (   array_key_exists($current_route, $this->firewall['routes'])  ) {
 
-            $role_necessaire = $this->firewall[$current_route];
+            $role_necessaire = $this->firewall['routes'][$current_route];
 
             //il est authentifié: a t'il les droits nécessaire
             if( !$this->container->get('security.context')->isGranted($role_necessaire) ){
@@ -59,6 +59,9 @@ class FirewallListener implements EventSubscriberInterface
             }
         }
     }
+
+
+
 
     public static function getSubscribedEvents()
     {

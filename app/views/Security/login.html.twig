@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    {#{%  if current_user == "anonymous" %}#}
+    {%  if current_user == "anonymous" %}
 
         <h1>login</h1>
         <form action="" method="post">
@@ -29,7 +29,7 @@
             {{ error }}
         </p>
 
-    {#{% endif %}#}
+    {% endif %}
 
 {% endblock %}
 

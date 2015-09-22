@@ -1,5 +1,6 @@
 <?php
-namespace Src\Controllers;
+//namespace Src\Controllers;
+namespace App\Lib\Security;
 
 use App\Lib\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

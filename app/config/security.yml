@@ -1,0 +1,23 @@
+firewall:
+    routes:
+        secured_route_1: ROLE_USER
+        secured_route_2: ROLE_ADMIN
+    pattern:
+        /admin: ROLE_ADMIN
+
+providers:
+    in_memory:
+        provider_key: my_security_str
+        users:
+            stef:
+                password: password
+                roles: [ROLE_USER]
+            admin:
+                password: password
+                roles: [ROLE_ADMIN]
+
+roles:
+    hierarchy:
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN,ROLE_USER]
+        ROLE_ADMIN: [ROLE_USER]
+
