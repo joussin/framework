@@ -2,6 +2,8 @@
 
 namespace App\Lib\Security;
 
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
@@ -25,12 +27,15 @@ class AuthListener implements ListenerInterface
      */
     private $providerKey;
 
+    private $container;
+
 // ...
 
-public function __construct($securityContext,$authenticationManager,$providerKey){
+public function __construct($securityContext,$authenticationManager,$providerKey,$container){
     $this->securityContext = $securityContext;
     $this->authenticationManager = $authenticationManager;
    $this->providerKey = $providerKey;
+   $this->container = $container;
 }
 
 
@@ -38,19 +43,37 @@ public function __construct($securityContext,$authenticationManager,$providerKey
     {
         $request = $event->getRequest();
 
-        $username = "stef";
-        $password = "password";
+        if(
+            NULL !== $request->request->get('_username') &&
+            NULL !== $request->request->get('_password')
+        ) {
 
-        $unauthenticatedToken = new UsernamePasswordToken(
-            $username,
-            $password,
-            $this->providerKey
-        );
+            $username = $request->request->get('_username');
+            $password = $request->request->get('_password');
 
-        $authenticatedToken = $this
-            ->authenticationManager
-            ->authenticate($unauthenticatedToken);
+            $username = "stef";
+            $password = "password";
 
-        $this->securityContext->setToken($authenticatedToken);
+            $unauthenticatedToken = new UsernamePasswordToken(
+                $username,
+                $password,
+                $this->providerKey
+            );
+        try{
+            $authenticatedToken = $this
+                ->authenticationManager
+                ->authenticate($unauthenticatedToken);
+
+            $this->securityContext->setToken($authenticatedToken);
+            $this->container->get("session")->set('security_token',$authenticatedToken);
+        }
+        catch (AuthenticationException $failed) {
+            $this->container->get('session')->set('security_login_error',$failed->getMessage() );
+        }
+
+
+
+        }
+
     }
 }

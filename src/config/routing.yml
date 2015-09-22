@@ -5,11 +5,11 @@ route_1:
     defaults: { _controller: 'Src\Controllers\DemoController::indexAction' }
 
 secured_route_1:
-    path:     /admin/secured1
+    path:     /secured1
     defaults: { _controller: 'Src\Controllers\DemoController::secured1Action' }
 
 secured_route_2:
-    path:     /admin/secured2
+    path:     /secured2
     defaults: { _controller: 'Src\Controllers\DemoController::secured2Action' }
 
 

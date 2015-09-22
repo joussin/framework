@@ -12,3 +12,4 @@ services:
     session:
         class: Symfony\Component\HttpFoundation\Session\Session
         calls:
+            - [ start ]
