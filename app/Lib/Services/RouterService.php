@@ -20,7 +20,7 @@ class RouterService{
     public function __construct(){
 
         //generation de routeCollection
-        $locator = new FileLocator(array(ROOT_PATH."/src/config"));
+        $locator = new FileLocator(array(ROOT_PATH."/app/config"));
         $loader = new YamlFileLoader($locator);
 
         $this->routes = $loader->load('routing.yml');

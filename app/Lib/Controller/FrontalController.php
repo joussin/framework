@@ -50,10 +50,7 @@ class FrontalController{
         $loader->load('services.yml');
 
 
-
-        $locator = new FileLocator(array(ROOT_PATH."/src/config"));
-        $loader = new YamlFileLoader($locator);
-        $routes = $loader->load('routing.yml');
+        $routes = $container->get('router')->getRoutes();
 
         $request = Request::createFromGlobals();
 

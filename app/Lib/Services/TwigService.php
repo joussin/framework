@@ -36,7 +36,8 @@ class TwigService{
         $loader = new \Twig_Loader_Filesystem(
             array(
                 ROOT_PATH.'/src/Views',
-                ROOT_PATH.'/src/Views/Form'
+                ROOT_PATH.'/app/views',
+                ROOT_PATH.'/app/views/form'
             )
         );
         $this->twig = new \Twig_Environment($loader, $options);

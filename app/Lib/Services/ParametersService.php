@@ -16,7 +16,7 @@ class ParametersService{
     public function __construct(){
 
         $parser = new Parser();
-        $this->parameters =  $parser->parse(file_get_contents(ROOT_PATH.'/src/config/parameters.yml'));
+        $this->parameters =  $parser->parse(file_get_contents(ROOT_PATH.'/app/config/parameters.yml'));
 
     }
 
