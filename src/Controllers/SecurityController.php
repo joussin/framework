@@ -11,6 +11,7 @@ use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Firewall;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validation;
 
@@ -47,26 +48,52 @@ final class SecurityController extends AbstractController
 
         $formFactory = Forms::createFormFactoryBuilder()
             ->addExtension(new ValidatorExtension(Validation::createValidator()))
+            ->addExtension(new HttpFoundationExtension())
             ->getFormFactory();
 
         $user = new User();
         $form = $formFactory->createBuilder("form",$user)
-            ->add('username',"text", array(
-                'constraints' => new NotBlank(),
+            ->add('username',null, array(
+                'constraints' => array(new Length(
+                    array(
+                        'min'        => 6,
+                        'max'        => 10,
+                        'minMessage' => 'Votre pseudo doit faire au moins {{ limit }} caractères',
+                        'maxMessage' => 'Votre pseudo ne peut pas être plus long que {{ limit }} caractères',
+                    )
+                ),
+                    new NotBlank(
+                        array(
+                            "message"=>"Votre pseudo ne doit pas être vide"
+                        )
+                    )
+                )
             ))
-            ->add('password',"text", array(
-                'constraints' => new NotBlank(),
+            ->add('password',"password", array(
+                'constraints' => array(new Length(
+                    array(
+                        'min'        => 6,
+                        'minMessage' => 'Votre pseudo doit faire au moins {{ limit }} caractères',
+                    )
+                ),
+                    new NotBlank(
+                        array(
+                            "message"=>"Votre mot de passe ne doit pas être vide"
+                        )
+                    )
+                )
             ))
             ->getForm();
 
 
-        $form->submit($request->request->get($form->getName()));
 
         if ($request->isMethod('POST')) {
+
+            $form->submit($request->request->get($form->getName()));
+
             if ($form->isValid()) {
 
                 $user = $form->getData();
-
 
                 $salt = uniqid();
                 $user->setSalt($salt);
@@ -80,7 +107,6 @@ final class SecurityController extends AbstractController
                     $em->flush();
                 }
                 catch(\Exception $e){
-//                    $error = $e->getMessage();
                     $error = "Username déjà utilisé";
                 }
             }
