@@ -59,7 +59,7 @@ class TwigService{
         $translator->addLoader('xlf', new XliffFileLoader());
         $translator->addResource(
             'xlf',
-            ROOT_PATH.'src/translation/messages.en.xlf',
+            ROOT_PATH.'app/views/form/translation/messages.en.xlf',
             'en'
         );
         $this->twig->addExtension(new TranslationExtension($translator));
