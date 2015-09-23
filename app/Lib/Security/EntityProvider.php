@@ -35,8 +35,7 @@ class EntityProvider implements UserProviderInterface {
         $UserRepository = $this->em->getRepository('Src\Entities\User');
 
 
-        $user = $UserRepository->findBy(array('username'=>$username));
-        $user = $user[0];
+        $user = $UserRepository->findOneBy(array('username'=>$username));
 
         if(empty($user)){
             throw new UsernameNotFoundException('Could not find user. Sorry!');

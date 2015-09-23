@@ -7,8 +7,10 @@ firewall:
         secured_route_2: ROLE_ADMIN
 
 providers:
-    in_memory:
+    keys:
         provider_key: my_security_str
+        anonymous_key: jncjkdsvmkjvbsd
+    in_memory:
         users:
             admin:
                 password: 545cd6s1c2ds3d

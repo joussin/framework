@@ -46,17 +46,14 @@ final class SecurityController extends AbstractController
 
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
-        $formFactory = Forms::createFormFactoryBuilder()
-            ->addExtension(new ValidatorExtension(Validation::createValidator()))
-            ->addExtension(new HttpFoundationExtension())
-            ->getFormFactory();
 
         $user = new User();
-        $form = $formFactory->createBuilder("form",$user)
+        $form = $this->getContainer()->get('form.factory')->getFormFactory()
+            ->createBuilder("form",$user)
             ->add('username',null, array(
                 'constraints' => array(new Length(
                     array(
-                        'min'        => 6,
+                        'min'        => 2,
                         'max'        => 10,
                         'minMessage' => 'Votre pseudo doit faire au moins {{ limit }} caractères',
                         'maxMessage' => 'Votre pseudo ne peut pas être plus long que {{ limit }} caractères',
@@ -72,7 +69,7 @@ final class SecurityController extends AbstractController
             ->add('password',"password", array(
                 'constraints' => array(new Length(
                     array(
-                        'min'        => 6,
+                        'min'        => 5,
                         'minMessage' => 'Votre pseudo doit faire au moins {{ limit }} caractères',
                     )
                 ),
@@ -98,7 +95,7 @@ final class SecurityController extends AbstractController
                 $salt = uniqid();
                 $user->setSalt($salt);
 
-                $encoder = $this->getContainer()->get('encoder.factory')->getEncoder($user);
+                $encoder = $this->getContainer()->get('encoder.factory')->getEncoderFactory()->getEncoder($user);
                 $encodedPassword = $encoder->encodePassword($user->getPassword(), $salt);
                 $user->setPassword($encodedPassword);
 

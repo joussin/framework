@@ -37,7 +37,6 @@ use Symfony\Component\Security\Core\User\UserChecker;
 class FrontalController{
 
 /*
- * TODO: mettre form factory en service
  * TODO: fct remember me
  * TODO: userChecker -> enabled
  * TODO: entité user: email, token, enabled etc...
@@ -52,96 +51,21 @@ class FrontalController{
         $loader->load('services.yml');
         $loader = new YamlFileLoaderDic($container, new FileLocator(ROOT_PATH.'/src/config'));
         $loader->load('services.yml');
-
+        $container->compile();
 
         $routes = $container->get('router')->getRoutes();
         $request = Request::createFromGlobals();
         $matcher = new UrlMatcher($routes, new RequestContext());
         $dispatcher = new EventDispatcher();
 
-        //--------------------------------------------------------------
-        //**********************  SECURITY  ****************************
-        //--------------------------------------------------------------
-
-        $parser = new Parser();
-        $security_config =  $parser->parse(file_get_contents(ROOT_PATH.'/app/config/security.yml'));
-
-        //FIREWALL
-        $firewall = $security_config['firewall'];
-
-        //ENCODERS
-        $encoder['plaintext'] = new PlaintextPasswordEncoder();
-        $encoder['sha512'] = new MessageDigestPasswordEncoder('sha512',false,1);
-        $encoders = array();
-        foreach($security_config['encoders'] as $prov => $enco){
-            $encoders[$prov] = $encoder[$enco];
-        }
-        $container->register('encoder.factory', 'Symfony\Component\Security\Core\Encoder\EncoderFactory')
-            ->addArgument($encoders);
-        $encoderFactory = $container->get('encoder.factory');
-
-        //PROVIDER
-        $providerKey = $security_config['providers']['in_memory']['provider_key'];
-        $anonymousKey = uniqid();
-
-        $userChecker = new UserChecker();
-
-        $inMemoryUserProvider = new InMemoryUserProvider($security_config['providers']['in_memory']['users']);
-        $inMemoryUserProvider = new DaoAuthenticationProvider(
-            $inMemoryUserProvider,
-            $userChecker,
-            $providerKey,
-            $encoderFactory
-        );
-        $entityProvider = new EntityProvider(new User(),$container->get('doctrine')->getEntityManager());
-        $entityProvider = new DaoAuthenticationProvider(
-            $entityProvider,
-            $userChecker,
-            $providerKey,
-            $encoderFactory
-        );
-
-        //PROVIDER MANAGER
-        $providers = array(
-            $inMemoryUserProvider,
-            new AnonymousAuthenticationProvider($anonymousKey),
-            $entityProvider
-        );
-        $authenticationManager = new AuthenticationProviderManager($providers);
-
-        //ACCES MANAGER
-        $hierarchy = $security_config['roles']['hierarchy'];
-        $roleHierarchy = new RoleHierarchy($hierarchy);
-        $roleVoter = new RoleHierarchyVoter($roleHierarchy);
-        $voters = array($roleVoter);
-        $accessDecisionManager = new AccessDecisionManager($voters);
-
-        //MISE EN SERVICE DU SECURITY CONTEXT
-        $container->register('security.context', 'Symfony\Component\Security\Core\SecurityContext')
-            ->addArgument($authenticationManager)
-            ->addArgument($accessDecisionManager);
 
         //LISTENERS
-        $dispatcher->addSubscriber(new AuthenticationListener(
-            $providerKey,
-            $anonymousKey,
-            $authenticationManager,
-            $roleVoter,
-            $container
-        ));
-        $dispatcher->addSubscriber(new FirewallListener(
-            $container,
-            $firewall,
-            $matcher,
-            $routes
-        ));
+        $dispatcher->addSubscriber(new AuthenticationListener($container));
+        $dispatcher->addSubscriber(new FirewallListener($container, $matcher));
         $dispatcher->addSubscriber(new RouterListener($matcher));
 
-        //--------------------------------------------------------------
-        //********************** FIN SECURITY  *************************
-        //--------------------------------------------------------------
 
-        $container->compile();
+
         $resolver = new MyControllerResolver($container);
         $kernel = new HttpKernel($dispatcher,$resolver);
         $response = $kernel->handle($request);

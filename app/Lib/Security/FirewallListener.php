@@ -7,30 +7,20 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class FirewallListener implements EventSubscriberInterface
 {
-    /**
-     * @var
-     */
-    private $container;
 
-    /**
-     * @var
-     */
     private $firewall;
 
-    /**
-     * @var
-     */
     private $matcher;
 
     private $routes;
+    private $container;
 
 
-    public function __construct($container,$firewall,$matcher,$routes){
-
+    public function __construct($container,$matcher){
         $this->container = $container;
-        $this->firewall = $firewall;
+        $this->firewall = $container->get('security.parameters')->getParameters()['firewall'];
         $this->matcher = $matcher;
-        $this->routes = $routes;
+        $this->routes =  $routes = $container->get('router')->getRoutes();
 
     }
 
@@ -57,9 +47,9 @@ class FirewallListener implements EventSubscriberInterface
 
     private function unauthorize($role){
 
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->container->get('security.context')->getSecurityContext()->getToken()->getUser();
 
-        if( !$this->container->get('security.context')->isGranted($role) ){
+        if( !$this->container->get('security.context')->getSecurityContext()->isGranted($role) ){
 
             if($user == 'anonymous'){
                 $link = $this->container->get('router')->generateUrl('security_login');

@@ -62,9 +62,7 @@ final class DemoController extends AbstractController
     }
 
     public  function secured1Action(){
-        if (!$this->getContainer()->get('security.context')->isGranted('ROLE_USER')) {
-            echo "unauthorized";
-        }
+
          return new Response("secured page 1");
     }
     public  function secured2Action(){

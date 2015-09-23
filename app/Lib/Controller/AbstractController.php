@@ -53,13 +53,10 @@ abstract class AbstractController{
 
     public function getCurrentUser(){
 
-        if(NULL!=$this->getContainer()->get('security.context')->getToken()){
+        if(NULL!=$this->getContainer()->get('security.context')->getSecurityContext()->getToken()){
             
-            return $this->getContainer()->get('security.context')->getToken()->getUser();
+            return $this->getContainer()->get('security.context')->getSecurityContext()->getToken()->getUser();
         }
-
-
-
     }
 
 }

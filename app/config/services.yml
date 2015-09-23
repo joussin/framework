@@ -2,14 +2,32 @@ services:
 #    SERVICE DE L'APPLICATION
     parameters:
         class: App\Lib\Services\ParametersService
+
+    security.parameters:
+        class: App\Lib\Services\SecurityParametersService
+
     router:
         class: App\Lib\Services\RouterService
+
     twig:
         class: App\Lib\Services\TwigService
+
+    form.factory:
+        class: App\Lib\Services\FormFactoryService
+
     doctrine:
         class: App\Lib\Services\DoctrineService
         arguments: ["@parameters"]
+
     session:
         class: Symfony\Component\HttpFoundation\Session\Session
         calls:
             - [ start ]
+
+    encoder.factory:
+        class: App\Lib\Services\EncoderFactoryService
+        arguments: ["@security.parameters"]
+
+    security.context:
+        class: App\Lib\Services\SecurityContextService
+        arguments: ["@security.parameters","@encoder.factory","@doctrine"]
