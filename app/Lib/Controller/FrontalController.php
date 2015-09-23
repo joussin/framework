@@ -38,7 +38,6 @@ class FrontalController{
 
 /*
  * TODO: mettre form factory en service
- * TODO: htaccess pour les dossier app/ et src/
  */
 
     public function __construct(){
