@@ -55,11 +55,11 @@ class FirewallListener implements EventSubscriberInterface
     }
 
 
-    private function unauthorize($role_necessaire){
+    private function unauthorize($role){
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        if( !$this->container->get('security.context')->isGranted($role_necessaire) ){
+        if( !$this->container->get('security.context')->isGranted($role) ){
 
             if($user == 'anonymous'){
                 $link = $this->container->get('router')->generateUrl('security_login');
