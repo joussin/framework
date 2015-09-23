@@ -6,17 +6,20 @@ use App\Lib\Controller\AbstractController;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Src\Entities\User;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Firewall;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Validation;
 
 
 final class SecurityController extends AbstractController
 {
 
 
-    public  function loginAction(Request $request){
+    public  function loginAction(){
 
         $error = $this->getContainer()->get('session')->get('security_login_error');
 
@@ -30,7 +33,7 @@ final class SecurityController extends AbstractController
             )
         );
     }
-    public  function logoutAction(Request $request){
+    public  function logoutAction(){
 
         $this->getContainer()->get('session')->remove('security_token');
         return new Response();
@@ -44,10 +47,14 @@ final class SecurityController extends AbstractController
 
         $user = new User();
 
-        $formFactory = Forms::createFormFactoryBuilder()->getFormFactory();
+        $formFactory = Forms::createFormFactoryBuilder()
+            ->addExtension(new ValidatorExtension(Validation::createValidator()))
+            ->getFormFactory();
 
          $form = $formFactory->createBuilder('form',$user)
-        ->add('username',"text")
+        ->add('username',"text", array(
+            'constraints' => new NotBlank(),
+        ))
         ->add('password',"text")
             ->getForm();
 
@@ -74,8 +81,6 @@ final class SecurityController extends AbstractController
             }
         }
 
-
-
         return  $this->render("Security/register.html.twig",
             array(
                 "error"=>$error,
@@ -83,7 +88,4 @@ final class SecurityController extends AbstractController
             )
         );
     }
-
-
-
 }

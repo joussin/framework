@@ -9,7 +9,6 @@
 namespace App\Lib\Controller;
 
 use App\Lib\Security\AuthenticationListener;
-
 use App\Lib\Security\EntityProvider;
 use App\Lib\Security\FirewallListener;
 use Src\Entities\User;
@@ -20,9 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
-
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader as YamlFileLoaderDic;
-
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,8 +38,9 @@ class FrontalController{
 
 /*
  * TODO: mettre form factory en service
- * TODO: creer salt pour hash( password + user + salt )
+ * TODO: creer salt pour le mdp =  hash( password + user + salt )
  * TODO: pattern pour le firewall
+ * TODO: htaccess pour les dossier app/ et src/
  */
 
     public function __construct(){
