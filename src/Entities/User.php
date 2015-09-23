@@ -25,6 +25,10 @@ class User implements UserInterface
      */
     protected $password;
 
+    /**
+     * @Column(type="string", length=255, nullable=false)
+     */
+    protected $salt;
 
     /**
      * @Column(type="array", length=255, nullable=false)
@@ -97,6 +101,14 @@ class User implements UserInterface
         return $this->roles ;
     }
 
+    /**
+     * @param mixed $salt
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+    }
+
 
 
     /**
@@ -105,7 +117,7 @@ class User implements UserInterface
      * @return string The salt
      */
     public function getSalt(){
-        return null;
+        return $this->salt;
     }
 
 

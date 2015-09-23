@@ -38,7 +38,6 @@ class FrontalController{
 
 /*
  * TODO: mettre form factory en service
- * TODO: creer salt pour le mdp =  hash( password + user + salt )
  * TODO: htaccess pour les dossier app/ et src/
  */
 
