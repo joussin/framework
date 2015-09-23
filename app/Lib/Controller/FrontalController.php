@@ -38,6 +38,7 @@ class FrontalController{
 
 /*
  * TODO: mettre form factory en service
+ * TODO: pb de validator (ex: securitycontroller::registeraction)
  */
 
     public function __construct(){
