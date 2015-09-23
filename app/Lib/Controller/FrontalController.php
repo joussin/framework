@@ -172,9 +172,9 @@ class FrontalController{
 
 
         if(DEV_MODE){
-            var_dump('TOKEN session='.$container->get('session')->get('security_token'));
-            var_dump('TOKEN security context='.$container->get('security.context')->getToken());
-            var_dump($container->getServiceIds());
+//            var_dump('TOKEN session='.$container->get('session')->get('security_token'));
+//            var_dump('TOKEN security context='.$container->get('security.context')->getToken());
+//            var_dump($container->getServiceIds());
          }
 
     }

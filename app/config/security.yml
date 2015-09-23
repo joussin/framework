@@ -3,7 +3,7 @@ firewall:
         secured_route_1: ROLE_USER
         secured_route_2: ROLE_ADMIN
     pattern:
-        /admin: ROLE_ADMIN
+        ^/admin: ROLE_ADMIN
 
 providers:
     in_memory:

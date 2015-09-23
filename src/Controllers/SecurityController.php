@@ -45,18 +45,20 @@ final class SecurityController extends AbstractController
 
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
-        $user = new User();
-
         $formFactory = Forms::createFormFactoryBuilder()
             ->addExtension(new ValidatorExtension(Validation::createValidator()))
             ->getFormFactory();
 
-         $form = $formFactory->createBuilder('form',$user)
-        ->add('username',"text", array(
-            'constraints' => new NotBlank(),
-        ))
-        ->add('password',"text")
+        $user = new User();
+        $form = $formFactory->createBuilder("form",$user)
+            ->add('username',"text", array(
+                'constraints' => new NotBlank(),
+            ))
+            ->add('password',"text", array(
+                'constraints' => new NotBlank(),
+            ))
             ->getForm();
+
 
         $form->submit($request->request->get($form->getName()));
 
@@ -68,16 +70,15 @@ final class SecurityController extends AbstractController
                 $encoder = $this->getContainer()->get('encoder.factory')->getEncoder($user);
                 $encodedPassword = $encoder->encodePassword($user->getPassword(), '');
                 $user->setPassword($encodedPassword);
+
                 try{
                     $em->persist($user);
                     $em->flush();
                 }
                 catch(\Exception $e){
-                    $error = $e->getMessage();
-//                    $error = "Username déjà utilisé";
+//                    $error = $e->getMessage();
+                    $error = "Username déjà utilisé";
                 }
-
-
             }
         }
 
