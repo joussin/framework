@@ -10,7 +10,11 @@ namespace App\Lib\Controller;
 
 use App\Lib\Security\AuthenticationListener;
 
+use App\Lib\Security\EntityProvider;
 use App\Lib\Security\FirewallListener;
+use Src\Entities\User;
+use Symfony\Bridge\Doctrine\Security\User\EntityUserProvider;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -75,24 +79,50 @@ class FrontalController{
         $providerKey = $security_config['providers']['in_memory']['provider_key'];
         $anonymousKey = uniqid();
 
-        $userProvider = new InMemoryUserProvider($security_config['providers']['in_memory']['users']);
+
 
 
         // for some extra checks: is account enabled, locked, expired, etc.?
         $userChecker = new UserChecker();
-        $defaultEncoder = new PlaintextPasswordEncoder();
-        $encoders = array(
-            'Symfony\\Component\\Security\\Core\\User\\User' => $defaultEncoder,
-        );
+
+
+        $encoder['plaintext'] = new PlaintextPasswordEncoder();
+        $encoder['sha512'] = new MessageDigestPasswordEncoder('sha512',false,1);
+
+
+        $encoders = array();
+        foreach($security_config['encoders'] as $prov => $enco){
+            $encoders[$prov] = $encoder[$enco];
+        }
         $encoderFactory = new EncoderFactory($encoders);
-        $provider = new DaoAuthenticationProvider(
-            $userProvider,
+
+
+        $inMemoryUserProvider = new InMemoryUserProvider($security_config['providers']['in_memory']['users']);
+        $inMemoryUserProvider = new DaoAuthenticationProvider(
+            $inMemoryUserProvider,
             $userChecker,
             $providerKey,
             $encoderFactory
         );
+
+
+
+        $entityProvider = new EntityProvider(new User(),$container->get('doctrine')->getEntityManager());
+        $entityProvider = new DaoAuthenticationProvider(
+            $entityProvider,
+            $userChecker,
+            $providerKey,
+            $encoderFactory
+        );
+
+
         //PROVIDER MANAGER
-        $providers = array($provider, new AnonymousAuthenticationProvider($anonymousKey));
+        $providers = array(
+            $inMemoryUserProvider,
+            new AnonymousAuthenticationProvider($anonymousKey),
+            $entityProvider
+
+        );
         $authenticationManager = new AuthenticationProviderManager($providers);
 
 
@@ -142,9 +172,17 @@ class FrontalController{
 
         $kernel->terminate($request, $response);
 
-        var_dump('TOKEN session='.$container->get('session')->get('security_token'));
-        var_dump('TOKEN security context='.$container->get('security.context')->getToken());
-        var_dump($container->getServiceIds());
+
+
+
+
+
+        if(DEV_MODE){
+//            var_dump('TOKEN session='.$container->get('session')->get('security_token'));
+//            var_dump('TOKEN security context='.$container->get('security.context')->getToken());
+//            var_dump($container->getServiceIds());
+//            echo hash('sha512', 'password');
+        }
 
     }
 
