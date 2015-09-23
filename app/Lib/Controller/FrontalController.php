@@ -39,7 +39,6 @@ class FrontalController{
 /*
  * TODO: mettre form factory en service
  * TODO: creer salt pour le mdp =  hash( password + user + salt )
- * TODO: pattern pour le firewall
  * TODO: htaccess pour les dossier app/ et src/
  */
 
@@ -151,7 +150,8 @@ class FrontalController{
         $dispatcher->addSubscriber(new FirewallListener(
             $container,
             $firewall,
-            $matcher
+            $matcher,
+            $routes
         ));
 
 
