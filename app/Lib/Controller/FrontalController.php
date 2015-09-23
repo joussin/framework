@@ -47,7 +47,9 @@ use Symfony\Component\Security\Core\User\UserChecker;
 
 class FrontalController{
 
-
+/*
+ * TODO: mettre form factory en service / creer salt pour password user
+ */
 
     public function __construct(){
 
@@ -94,8 +96,11 @@ class FrontalController{
         foreach($security_config['encoders'] as $prov => $enco){
             $encoders[$prov] = $encoder[$enco];
         }
-        $encoderFactory = new EncoderFactory($encoders);
 
+
+        $container->register('encoder.factory', 'Symfony\Component\Security\Core\Encoder\EncoderFactory')
+            ->addArgument($encoders);
+        $encoderFactory = $container->get('encoder.factory');
 
         $inMemoryUserProvider = new InMemoryUserProvider($security_config['providers']['in_memory']['users']);
         $inMemoryUserProvider = new DaoAuthenticationProvider(
@@ -174,14 +179,11 @@ class FrontalController{
 
 
 
-
-
-
         if(DEV_MODE){
-//            var_dump('TOKEN session='.$container->get('session')->get('security_token'));
-//            var_dump('TOKEN security context='.$container->get('security.context')->getToken());
-//            var_dump($container->getServiceIds());
-//            echo hash('sha512', 'password');
+            var_dump('TOKEN session='.$container->get('session')->get('security_token'));
+            var_dump('TOKEN security context='.$container->get('security.context')->getToken());
+            var_dump($container->getServiceIds());
+            echo hash('sha512', 'password');
         }
 
     }

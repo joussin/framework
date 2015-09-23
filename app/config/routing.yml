@@ -15,6 +15,9 @@ secured_route_2:
 
 #SECURITY
 
+security_register:
+    path:     /register
+    defaults: { _controller: 'App\Lib\Security\SecurityController::registerAction' }
 security_login:
     path:     /login
     defaults: { _controller: 'App\Lib\Security\SecurityController::loginAction' }

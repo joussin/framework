@@ -23,4 +23,4 @@ roles:
 
 encoders:
     Symfony\Component\Security\Core\User\User: sha512 #plaintext
-    Src\Entities\User: plaintext
+    Src\Entities\User: sha512

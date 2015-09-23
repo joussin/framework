@@ -1,0 +1,22 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}security{% endblock %}
+
+
+{% block content %}
+
+
+        <h1>register</h1>
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+
+        <input type="submit" />
+    </form>
+
+        <p>
+            {{ error }}
+        </p>
+
+
+{% endblock %}
+

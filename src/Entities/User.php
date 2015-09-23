@@ -23,10 +23,16 @@ class User implements UserInterface
     protected $password;
 
 
+    /**
+     * @Column(type="array", length=255, nullable=true)
+     */
+    protected $roles;
+
+
 
     public function __construct()
     {
-
+        $this->setRoles(array('ROLE_USER'));
     }
 
     /**
@@ -69,6 +75,14 @@ class User implements UserInterface
         $this->password = $password;
     }
 
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
+
 
 
     /**
@@ -77,7 +91,7 @@ class User implements UserInterface
      * @return Role[] The user roles
      */
     public function getRoles(){
-        return array('ROLE_USER');
+        return $this->roles ;
     }
 
 
