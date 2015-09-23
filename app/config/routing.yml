@@ -17,10 +17,10 @@ secured_route_2:
 
 security_register:
     path:     /register
-    defaults: { _controller: 'App\Lib\Security\SecurityController::registerAction' }
+    defaults: { _controller: 'Src\Controllers\SecurityController::registerAction' }
 security_login:
     path:     /login
-    defaults: { _controller: 'App\Lib\Security\SecurityController::loginAction' }
+    defaults: { _controller: 'Src\Controllers\SecurityController::loginAction' }
 security_logout:
     path:     /logout
-    defaults: { _controller: 'App\Lib\Security\SecurityController::logoutAction' }
+    defaults: { _controller: 'Src\Controllers\SecurityController::logoutAction' }

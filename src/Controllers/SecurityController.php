@@ -1,8 +1,9 @@
 <?php
-//namespace Src\Controllers;
-namespace App\Lib\Security;
+namespace Src\Controllers;
+//namespace App\Lib\Security;
 
 use App\Lib\Controller\AbstractController;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Src\Entities\User;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 use Symfony\Component\Form\Forms;
@@ -42,6 +43,7 @@ final class SecurityController extends AbstractController
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
         $user = new User();
+
         $formFactory = Forms::createFormFactoryBuilder()->getFormFactory();
 
          $form = $formFactory->createBuilder('form',$user)
@@ -57,13 +59,17 @@ final class SecurityController extends AbstractController
                 $user = $form->getData();
 
                 $encoder = $this->getContainer()->get('encoder.factory')->getEncoder($user);
-
                 $encodedPassword = $encoder->encodePassword($user->getPassword(), '');
-
                 $user->setPassword($encodedPassword);
+                try{
+                    $em->persist($user);
+                    $em->flush();
+                }
+                catch(\Exception $e){
+                    $error = $e->getMessage();
+//                    $error = "Username déjà utilisé";
+                }
 
-                $em->persist($user);
-                $em->flush();
 
             }
         }

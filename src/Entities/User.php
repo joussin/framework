@@ -3,7 +3,10 @@ namespace Src\Entities;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @Entity @Table(name="user", options={"collate"="utf8_unicode_ci"})
+ * @Entity @Table(
+ * name="user",
+ * uniqueConstraints={@UniqueConstraint(name="user_idx", columns={"username"})},
+ * options={"collate"="utf8_unicode_ci"})
  **/
 class User implements UserInterface
 {
@@ -13,18 +16,18 @@ class User implements UserInterface
      **/
     protected $id;
     /**
-     * @Column(type="string", length=255, nullable=true)
+     * @Column(type="string", length=255, nullable=false)
      **/
     protected $username;
 
     /**
-     * @Column(type="string", length=255, nullable=true)
+     * @Column(type="string", length=255, nullable=false)
      */
     protected $password;
 
 
     /**
-     * @Column(type="array", length=255, nullable=true)
+     * @Column(type="array", length=255, nullable=false)
      */
     protected $roles;
 
