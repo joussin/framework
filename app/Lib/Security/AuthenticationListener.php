@@ -4,12 +4,7 @@
 namespace App\Lib\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
-use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\Security\Http\Firewall\ListenerInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -34,19 +29,12 @@ class AuthenticationListener implements EventSubscriberInterface
     private $anonymousKey;
 
 
-    /**
-     * @var
-     */
-    private $roleVoter;
-
-
 
     public function __construct($container){
 
         $this->authenticationManager = $container->get('security.context')->getAuthenticationManager();
         $this->providerKey = $container->get('security.parameters')->getParameters()['providers']['keys']['provider_key'];
         $this->anonymousKey = $container->get('security.parameters')->getParameters()['providers']['keys']['anonymous_key'];
-        $this->roleVoter = $container->get('security.context')->getRoleVoter();
         $this->container = $container;
 
     }

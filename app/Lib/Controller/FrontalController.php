@@ -9,11 +9,7 @@
 namespace App\Lib\Controller;
 
 use App\Lib\Security\AuthenticationListener;
-use App\Lib\Security\EntityProvider;
 use App\Lib\Security\FirewallListener;
-use Src\Entities\User;
-use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
-use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -23,16 +19,8 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader as YamlFileLoade
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider;
-use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
-use Symfony\Component\Security\Core\Role\RoleHierarchy;
 use Symfony\Component\Security\Http\Firewall;
-use Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager;
-use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
-use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
-use Symfony\Component\Security\Core\User\InMemoryUserProvider;
-use Symfony\Component\Security\Core\User\UserChecker;
+
 
 class FrontalController{
 
@@ -41,6 +29,7 @@ class FrontalController{
  * TODO: userChecker -> enabled
  * TODO: entité user: email, token, enabled etc...
  * TODO: voir les redirection apres login, logout etc...
+ * TODO: cache yml / cache http
  *
  */
 

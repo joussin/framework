@@ -16,19 +16,15 @@ use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationPro
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
 use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
-use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
-use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 use Symfony\Component\Security\Core\Role\RoleHierarchy;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\User\InMemoryUserProvider;
 use Symfony\Component\Security\Core\User\UserChecker;
-use Symfony\Component\Yaml\Parser;
 
 class SecurityContextService{
 
     private $security_context;
     private $authenticationManager;
-    private $roleVoter;
 
     public function __construct($security_config,$encoderFactory,$doctrine){
 
@@ -67,8 +63,8 @@ class SecurityContextService{
         //ACCES MANAGER
         $hierarchy = $security_config['roles']['hierarchy'];
         $roleHierarchy = new RoleHierarchy($hierarchy);
-        $this->roleVoter = new RoleHierarchyVoter($roleHierarchy);
-        $voters = array($this->roleVoter);
+        $roleVoter = new RoleHierarchyVoter($roleHierarchy);
+        $voters = array($roleVoter);
         $accessDecisionManager = new AccessDecisionManager($voters);
 
 
@@ -93,13 +89,6 @@ class SecurityContextService{
         return $this->authenticationManager;
     }
 
-    /**
-     * @return RoleHierarchyVoter
-     */
-    public function getRoleVoter()
-    {
-        return $this->roleVoter;
-    }
 
 
 
