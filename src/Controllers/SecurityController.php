@@ -41,11 +41,8 @@ final class SecurityController extends AbstractController
     public  function logoutAction(){
 
         $this->getContainer()->get('session')->remove('security_token');
-        $r =new Response();
+        $r =new Response("logout");
         $r->headers->clearCookie('security_token');
-        $r->send();
-
-
         return $r;
     }
 
