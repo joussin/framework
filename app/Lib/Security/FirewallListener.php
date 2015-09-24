@@ -47,19 +47,16 @@ class FirewallListener implements EventSubscriberInterface
 
     private function unauthorize($role){
 
-        $user = $this->container->get('security.context')->getSecurityContext()->getToken()->getUser();
+        $token = $this->container->get('security.context')->getSecurityContext()->getToken();
+        if($token === NULL){
+            $link = $this->container->get('router')->generateUrl('security_login');
+            header('Location: '.$link);
+            exit;
+        }
+        else if( !$this->container->get('security.context')->getSecurityContext()->isGranted($role) ){
 
-        if( !$this->container->get('security.context')->getSecurityContext()->isGranted($role) ){
-
-            if($user == 'anonymous'){
-                $link = $this->container->get('router')->generateUrl('security_login');
-                header('Location: '.$link);
-                exit;
-            }
-            else{
                 header('HTTP/1.0 403 Forbidden');
                 die("403 Unauthorized");
-            }
         }
     }
 

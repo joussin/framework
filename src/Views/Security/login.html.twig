@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    {%  if current_user == "anonymous" %}
+
 
         <h1>login</h1>
         <form action="" method="post">
@@ -20,6 +20,11 @@
             <br />
             <br />
 
+            <label for="_remember_me" >se souvenir de moi</label><br />
+            <input type="checkbox" name="_remember_me" />
+            <br />
+            <br />
+
 
             <input type="submit" name="connection" />
 
@@ -29,7 +34,7 @@
             {{ error }}
         </p>
 
-    {% endif %}
+
 
 {% endblock %}
 

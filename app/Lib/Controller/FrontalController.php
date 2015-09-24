@@ -25,7 +25,6 @@ use Symfony\Component\Security\Http\Firewall;
 class FrontalController{
 
 /*
- * TODO: fct remember me
  * TODO: userChecker -> enabled
  * TODO: entité user: email, token, enabled etc...
  * TODO: voir les redirection apres login, logout etc...
@@ -47,13 +46,10 @@ class FrontalController{
         $matcher = new UrlMatcher($routes, new RequestContext());
         $dispatcher = new EventDispatcher();
 
-
         //LISTENERS
         $dispatcher->addSubscriber(new AuthenticationListener($container));
         $dispatcher->addSubscriber(new FirewallListener($container, $matcher));
         $dispatcher->addSubscriber(new RouterListener($matcher));
-
-
 
         $resolver = new MyControllerResolver($container);
         $kernel = new HttpKernel($dispatcher,$resolver);
@@ -61,13 +57,10 @@ class FrontalController{
         $response->send();
         $kernel->terminate($request, $response);
 
-
-
         if(DEV_MODE){
 //            var_dump('TOKEN session='.$container->get('session')->get('security_token'));
 //            var_dump('TOKEN security context='.$container->get('security.context')->getToken());
 //            var_dump($container->getServiceIds());
          }
-
     }
 }

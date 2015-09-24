@@ -9,7 +9,7 @@ firewall:
 providers:
     keys:
         provider_key: my_security_str
-        anonymous_key: jncjkdsvmkjvbsd
+        crypt_key: azert45678fdsc23qsds
     in_memory:
         users:
             admin:

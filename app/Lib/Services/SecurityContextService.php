@@ -33,7 +33,6 @@ class SecurityContextService{
 
         //PROVIDER
         $providerKey = $security_config['providers']['keys']['provider_key'];
-        $anonymousKey = $security_config['providers']['keys']['anonymous_key'];
 
         $userChecker = new UserChecker();
 
@@ -55,7 +54,6 @@ class SecurityContextService{
         //PROVIDER MANAGER
         $providers = array(
             $inMemoryUserProvider,
-            new AnonymousAuthenticationProvider($anonymousKey),
             $entityProvider
         );
         $this->authenticationManager = new AuthenticationProviderManager($providers);
