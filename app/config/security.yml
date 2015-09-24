@@ -1,4 +1,5 @@
 firewall:
+    login_route: security_login
     pattern:
         path: ^\/admin
         role: ROLE_ADMIN
