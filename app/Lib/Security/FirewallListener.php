@@ -50,9 +50,9 @@ class FirewallListener implements EventSubscriberInterface
         $token = $this->container->get('security.context')->getSecurityContext()->getToken();
         if($token === NULL){
 
-            $link = $this->container->get('router')->generateUrl('security_login');
-            header('Location: '.$link);
-            exit;
+//            $link = $this->container->get('router')->generateUrl('security_login');
+//            header('Location: '.$link);
+//            exit;
 
             $login_route_alias=  $this->firewall['login_route'];
             $login_route = $this->routes->get($login_route_alias);
