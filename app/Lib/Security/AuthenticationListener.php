@@ -36,25 +36,20 @@ class AuthenticationListener implements EventSubscriberInterface
     private $crypt_key;
 
 
-
-
-
-
     public function __construct($container){
-
-        $this->authenticationManager = $container->get('security.context')->getAuthenticationManager();
-        $this->providerKey = $container->get('security.parameters')->getParameters()['providers']['keys']['provider_key'];
         $this->container = $container;
+        $this->providerKey = $container->get('security.parameters')->getParameters()['providers']['keys']['provider_key'];
         $this->crypt_key = $container->get('security.parameters')->getParameters()['providers']['keys']['crypt_key'];
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
+
         $request = $event->getRequest();
 
         //CONNECTION:
 
-        //PAR UNE SESSION, UN COOKIE OU UN TOKEN D'AUTO-LOGIN
+        //PAR UNE SESSION, UN COOKIE
         $token_session = $this->container->get('session')->get('security_token');
         $token_cookie = $request->cookies->get('security_token');
 
@@ -74,19 +69,18 @@ class AuthenticationListener implements EventSubscriberInterface
                 NULL !== $request->request->get('_username') &&
                 NULL !== $request->request->get('_password')
             ) {
+
+                $this->authenticationManager = $this->container->get('security.context')->getAuthenticationManager();
+
                 $user = $request->request->get('_username');
                 $pass = $request->request->get('_password');
-
                 $remember_me  = ($request->request->get('_remember_me')!=NULL)?true:false;
-
 
                 $unauth_token = new UsernamePasswordToken(
                     $user,
                     $pass,
                     $this->providerKey
                 );
-
-
 
                 try{
                     $authenticatedToken = $this->authenticationManager->authenticate($unauth_token);

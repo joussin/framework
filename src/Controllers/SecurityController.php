@@ -28,6 +28,7 @@ final class SecurityController extends AbstractController
             $this->getContainer()->get('session')->remove('security_login_error');
         }
 
+
         return  $this->render("Security/login.html.twig",
             array(
                 "error"=>$error
