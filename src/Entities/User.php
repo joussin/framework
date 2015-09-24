@@ -1,5 +1,6 @@
 <?php
 namespace Src\Entities;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -8,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * uniqueConstraints={@UniqueConstraint(name="user_idx", columns={"username"})},
  * options={"collate"="utf8_unicode_ci"})
  **/
-class User implements UserInterface
+class User implements AdvancedUserInterface
 {
     /**
      * @Id @Column(type="integer")
@@ -34,6 +35,10 @@ class User implements UserInterface
      * @Column(type="array", length=255, nullable=false)
      */
     protected $roles;
+    /**
+     * @Column( type="boolean", options={"default":0})
+     */
+    protected $enabled;
 
 
 
@@ -109,8 +114,6 @@ class User implements UserInterface
         $this->salt = $salt;
     }
 
-
-
     /**
      * Returns the salt.
      *
@@ -120,13 +123,43 @@ class User implements UserInterface
         return $this->salt;
     }
 
-
+    /**
+     * @return mixed
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
 
     /**
-     * Removes sensitive data from the user.
-     *
-     * @return void
+     * @param mixed $enabled
      */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
+
+
+    public function isEnabled(){
+
+        return $this->getEnabled();
+    }
+
+    public function isAccountNonLocked(){
+
+        return true;
+    }
+
+
+    public function isAccountNonExpired(){
+
+        return true;
+    }
+    public function isCredentialsNonExpired(){
+
+        return true;
+    }
+
     public function eraseCredentials(){
         $this->password = null;
     }
