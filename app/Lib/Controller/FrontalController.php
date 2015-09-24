@@ -25,8 +25,7 @@ use Symfony\Component\Security\Http\Firewall;
 class FrontalController{
 
 /*
- * TODO: userChecker -> enabled
- * TODO: entité user: email, token, enabled etc...
+ * TODO: entité user: email, token
  * TODO: voir les redirection apres login, logout etc...
  * TODO: cache yml / cache http
  *

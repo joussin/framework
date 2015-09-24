@@ -6,7 +6,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @Entity @Table(
  * name="user",
- * uniqueConstraints={@UniqueConstraint(name="user_idx", columns={"username"})},
  * options={"collate"="utf8_unicode_ci"})
  **/
 class User implements AdvancedUserInterface
@@ -17,9 +16,13 @@ class User implements AdvancedUserInterface
      **/
     protected $id;
     /**
-     * @Column(type="string", length=255, nullable=false)
+     * @Column(type="string", length=255, nullable=false, unique = true)
      **/
     protected $username;
+    /**
+     * @Column(type="string", length=255, nullable=false, unique = true)
+     **/
+    protected $email;
 
     /**
      * @Column(type="string", length=255, nullable=false)
@@ -36,15 +39,22 @@ class User implements AdvancedUserInterface
      */
     protected $roles;
     /**
-     * @Column( type="boolean", options={"default":0})
+     * @Column( type="boolean", options={"default":0}, nullable=false)
      */
     protected $enabled;
 
+    /**
+     * @Column(type="string", length=255, nullable=false)
+     */
+    protected $token_validation;
 
 
     public function __construct()
     {
         $this->setRoles(array('ROLE_USER'));
+        $this->setEnabled(0);
+
+
     }
 
     /**
@@ -69,6 +79,22 @@ class User implements AdvancedUserInterface
     public function setUsername($username)
     {
         $this->username = $username;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     /**
@@ -138,6 +164,25 @@ class User implements AdvancedUserInterface
     {
         $this->enabled = $enabled;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTokenValidation()
+    {
+        return $this->token_validation;
+    }
+
+    /**
+     * @param mixed $token_validation
+     */
+    public function setTokenValidation($token_validation)
+    {
+        $this->token_validation = $token_validation;
+    }
+
+
+
 
 
     public function isEnabled(){

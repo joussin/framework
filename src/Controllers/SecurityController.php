@@ -5,12 +5,15 @@ namespace Src\Controllers;
 use App\Lib\Controller\AbstractController;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Src\Entities\User;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Firewall;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validation;
@@ -72,6 +75,20 @@ final class SecurityController extends AbstractController
                     )
                 )
             ))
+            ->add('email',null, array(
+                'constraints' => array(
+                    new Email(
+                        array(
+                            'message'=> "email invalide"
+                        )
+                    ),
+                    new NotBlank(
+                        array(
+                            "message"=>"Votre email ne doit pas être vide"
+                        )
+                    )
+                )
+            ))
             ->add('password',"password", array(
                 'constraints' => array(new Length(
                     array(
@@ -105,12 +122,14 @@ final class SecurityController extends AbstractController
                 $encodedPassword = $encoder->encodePassword($user->getPassword(), $salt);
                 $user->setPassword($encodedPassword);
 
+                $user->setTokenValidation(md5($user->getUsername()));
+
                 try{
                     $em->persist($user);
                     $em->flush();
                 }
                 catch(\Exception $e){
-                    $error = "Username déjà utilisé";
+                    $error = $e->getMessage();
                 }
             }
         }
