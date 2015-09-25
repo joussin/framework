@@ -35,7 +35,7 @@ class SecurityContextService{
 
         $this->security_config = $security_config->getParameters();
         $this->encoderFactory =  $encoderFactory;
-        $this->doctrine = $doctrine;
+$this->doctrine = $doctrine;
 
         //PROVIDER
         $providerKey = $this->security_config['providers']['keys']['provider_key'];
@@ -80,6 +80,9 @@ class SecurityContextService{
      */
     public function getAuthenticationManager()
     {
+
+
+
         return $this->authenticationManager;
     }
 
@@ -88,6 +91,9 @@ class SecurityContextService{
      */
     public function getSecurityContext()
     {
+
+
+
 
         return $this->security_context;
     }

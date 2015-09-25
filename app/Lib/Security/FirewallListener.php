@@ -23,7 +23,7 @@ class FirewallListener implements EventSubscriberInterface
         $this->container = $container;
         $this->firewall = $container->get('security.parameters')->getParameters()['firewall'];
         $this->matcher = $matcher;
-        $this->routes =  $routes = $container->get('router')->getRoutes();
+        $this->routes = $container->get('router')->getRoutes();
     }
 
     public function onKernelRequest(GetResponseEvent $event)

@@ -66,25 +66,38 @@ final class DemoController extends AbstractController
     public  function testPerfAction($templating,Request $request){
 
 
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
-
-
-        $demoRepository = $em->getRepository('Src\Entities\Demo');
-
-        $demos = $demoRepository->findAll();
-
 
         if($templating == "twig"){
 
 
 
+            $em = $this->getContainer()->get('doctrine')->getEntityManager();
+
+
+            $demoRepository = $em->getRepository('Src\Entities\Demo');
+
+            $demos = $demoRepository->findAll();
 
             return  $this->render("Demo/testPerf.html.twig",
                 array(
                     'demos' => $demos,
                 )
             );
-        }elseif($templating=="php") {
+        }
+
+        else if($templating == "twigonly"){
+
+
+            return  $this->render("Demo/testPerf.html.twig",
+                array(
+                    'demos' => array(),
+                )
+            );
+        }
+
+
+
+        elseif($templating=="php") {
             return new Response();
         }
 
