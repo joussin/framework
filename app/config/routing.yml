@@ -24,3 +24,6 @@ security_login:
 security_logout:
     path:     /logout
     defaults: { _controller: 'Src\Controllers\SecurityController::logoutAction' }
+security_confirm:
+    path:     /confirm/{token}
+    defaults: { _controller: 'Src\Controllers\SecurityController::confirmAction' }

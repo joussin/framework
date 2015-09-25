@@ -46,7 +46,7 @@ class User implements AdvancedUserInterface
     /**
      * @Column(type="string", length=255, nullable=false)
      */
-    protected $token_validation;
+    protected $validation_token;
 
 
     public function __construct()
@@ -168,18 +168,19 @@ class User implements AdvancedUserInterface
     /**
      * @return mixed
      */
-    public function getTokenValidation()
+    public function getValidationToken()
     {
-        return $this->token_validation;
+        return $this->validation_token;
     }
 
     /**
-     * @param mixed $token_validation
+     * @param mixed $validation_token
      */
-    public function setTokenValidation($token_validation)
+    public function setValidationToken($validation_token)
     {
-        $this->token_validation = $token_validation;
+        $this->validation_token = $validation_token;
     }
+
 
 
 

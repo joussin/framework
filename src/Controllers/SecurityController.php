@@ -46,6 +46,24 @@ final class SecurityController extends AbstractController
         return $r;
     }
 
+    public function confirmAction($token){
+
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+
+        $user_repository = $em->getRepository('Src\Entities\User');
+
+        $user = $user_repository->findOneBy(array('validation_token'=>$token));
+
+        if($user!=null){
+
+            $user->setEnabled(1);
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return new Response();
+    }
+
     public  function registerAction(Request $request){
 
         $error ="";
@@ -119,7 +137,7 @@ final class SecurityController extends AbstractController
                 $encodedPassword = $encoder->encodePassword($user->getPassword(), $salt);
                 $user->setPassword($encodedPassword);
 
-                $user->setTokenValidation(md5($user->getUsername()));
+                $user->setValidationToken(md5($user->getUsername()));
 
                 try{
                     $em->persist($user);

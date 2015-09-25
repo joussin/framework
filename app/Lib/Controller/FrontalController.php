@@ -25,7 +25,6 @@ use Symfony\Component\Security\Http\Firewall;
 class FrontalController{
 
 /*
- * TODO: action comfirm dans security controlleur
  * TODO: validateur UniqueEntity pour la page de register
  * TODO: cache http
  *
