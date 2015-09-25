@@ -61,9 +61,48 @@ final class DemoController extends AbstractController
         );
     }
 
+
+
+    public  function testPerfAction($templating,Request $request){
+
+
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+
+
+        $demoRepository = $em->getRepository('Src\Entities\Demo');
+
+        $demos = $demoRepository->findAll();
+
+
+        if($templating == "twig"){
+
+
+
+
+            return  $this->render("Demo/testPerf.html.twig",
+                array(
+                    'demos' => $demos,
+                )
+            );
+        }elseif($templating=="php") {
+            return new Response();
+        }
+
+
+
+
+
+
+    }
+
+
+
+
+
+
     public  function secured1Action(){
 
-         return new Response("secured page 1");
+        return new Response("secured page 1");
     }
     public  function secured2Action(){
 

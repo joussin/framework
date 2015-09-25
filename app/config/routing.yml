@@ -4,6 +4,13 @@ route_1:
     path:     /demo/{name}
     defaults: { _controller: 'Src\Controllers\DemoController::indexAction' }
 
+route_2:
+    path:     /test-perf/{templating}
+    defaults: { _controller: 'Src\Controllers\DemoController::testPerfAction' }
+
+
+
+
 secured_route_1:
     path:     /secured1
     defaults: { _controller: 'Src\Controllers\DemoController::secured1Action' }

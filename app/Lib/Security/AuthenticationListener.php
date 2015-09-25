@@ -40,6 +40,8 @@ class AuthenticationListener implements EventSubscriberInterface
         $this->container = $container;
         $this->providerKey = $container->get('security.parameters')->getParameters()['providers']['keys']['provider_key'];
         $this->crypt_key = $container->get('security.parameters')->getParameters()['providers']['keys']['crypt_key'];
+        $this->authenticationManager = $this->container->get('security.context')->getAuthenticationManager();
+
     }
 
     public function onKernelRequest(GetResponseEvent $event)
@@ -70,7 +72,6 @@ class AuthenticationListener implements EventSubscriberInterface
                 NULL !== $request->request->get('_password')
             ) {
 
-                $this->authenticationManager = $this->container->get('security.context')->getAuthenticationManager();
 
                 $user = $request->request->get('_username');
                 $pass = $request->request->get('_password');
