@@ -12,7 +12,7 @@ use App\Lib\Controller\FrontalController;
 
 
 define("REWRITE_MODE",false);
-define("DEV_MODE",false);
+define("DEV_MODE",true);
 
 define("ROOT_PATH",__DIR__.'/../');
 define("HOSTNAME","localhost");

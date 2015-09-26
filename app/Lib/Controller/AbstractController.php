@@ -45,11 +45,21 @@ abstract class AbstractController{
     public function render($htmlFile,$arguments = array()){
 
         $arguments["web_path"] = $this->getAssetDirectory();
-        $arguments["current_user"] = $this->getCurrentUser();
+
 
         return new Response( $this->container->get('twig')->getTwig()->render($htmlFile, $arguments));
     }
 
+    public function renderPhp($htmlFile,$arguments = array()){
+
+        extract($arguments);
+        ob_start();
+        include($htmlFile);
+        $out = ob_get_contents();
+        ob_end_clean();
+
+        return new Response( $out);
+    }
 
     public function getCurrentUser(){
 

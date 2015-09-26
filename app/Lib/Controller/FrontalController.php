@@ -26,7 +26,7 @@ class FrontalController{
 
 /*
  * TODO: validateur UniqueEntity pour la page de register
- * TODO: cache http
+ * TODO: performance de security.context service (pb injection doctrine, constructeur appelé etc...)
  *
  */
 

@@ -28,6 +28,7 @@ class DoctrineService{
             'charset'   => $parameters->getParameters()['db']['charset']
         );
 
+
         $config = Setup::createAnnotationMetadataConfiguration($paths, DEV_MODE);
         $this->entity_manager = EntityManager::create($dbParams, $config);
 

@@ -67,51 +67,27 @@ final class DemoController extends AbstractController
 
 
 
-        if($templating == "twig"){
-
-
-
-            $em = $this->getContainer()->get('doctrine')->getEntityManager();
-
-
-            $demoRepository = $em->getRepository('Src\Entities\Demo');
-
-            $demos = $demoRepository->findAll();
-
-            return  $this->render("Demo/testPerf.html.twig",
-                array(
-                    'demos' => $demos,
-                )
-            );
-        }
-
-        else if($templating == "twigonly"){
+         if($templating == "twig"){
 
 
             return  $this->render("Demo/testPerf.html.twig",
                 array(
-                    'demos' => array(),
+                    'demos'=>array('demo')
                 )
             );
         }
-
-
 
         elseif($templating=="php") {
-            return new Response();
+
+            return $this->renderPhp("../src/Views/Demo/testPerf.html.php",
+                array(
+                    'demos'=>array('demo')
+                )
+            );
+
         }
 
-
-
-
-
-
     }
-
-
-
-
-
 
     public  function secured1Action(){
 
@@ -122,10 +98,5 @@ final class DemoController extends AbstractController
 
         return new Response("secured page 2");
     }
-
-
-
-
-
 
 }
