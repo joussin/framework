@@ -20,18 +20,20 @@ class TwigService{
 
     private $twig;
 
-    public function __construct(){
-
-        if(DEV_MODE){
-            $options = array(
-                'cache' => false
-            );
-        }
-        else{
-            $options = array(
-                'cache' => ROOT_PATH.'/app/cache/twig',
-            );
-        }
+    /**
+     * @return \Twig_Environment
+     */
+    public function getTwig()
+    {   if(DEV_MODE){
+        $options = array(
+            'cache' => false
+        );
+    }
+    else{
+        $options = array(
+            'cache' => ROOT_PATH.'/app/cache/twig',
+        );
+    }
 
         $loader = new \Twig_Loader_Filesystem(
             array(
@@ -63,14 +65,6 @@ class TwigService{
             'en'
         );
         $this->twig->addExtension(new TranslationExtension($translator));
-
-    }
-
-    /**
-     * @return \Twig_Environment
-     */
-    public function getTwig()
-    {
         return $this->twig;
     }
 

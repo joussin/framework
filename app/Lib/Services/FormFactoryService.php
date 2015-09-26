@@ -17,19 +17,16 @@ class FormFactoryService{
 
     private $formFactory;
 
-    public function __construct(){
-
-        $this->formFactory = Forms::createFormFactoryBuilder()
-            ->addExtension(new ValidatorExtension(Validation::createValidator()))
-            ->addExtension(new HttpFoundationExtension())
-            ->getFormFactory();
-    }
-
     /**
      * @return \Symfony\Component\Form\FormFactoryInterface
      */
     public function getFormFactory()
     {
+        $this->formFactory = Forms::createFormFactoryBuilder()
+            ->addExtension(new ValidatorExtension(Validation::createValidator()))
+            ->addExtension(new HttpFoundationExtension())
+            ->getFormFactory();
+
         return $this->formFactory;
     }
 

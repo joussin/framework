@@ -79,6 +79,9 @@ final class DemoController extends AbstractController
 
         elseif($templating=="php") {
 
+
+            $test = $this->getCurrentUser();
+
             return $this->renderPhp("../src/Views/Demo/testPerf.html.php",
                 array(
                     'demos'=>array('demo')

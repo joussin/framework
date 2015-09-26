@@ -10,11 +10,11 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 class EntityProvider implements UserProviderInterface {
 
     protected $user;
-    private $em;
+    private $doctrine;
 
-    public function __construct (UserInterface $user,$em) {
+    public function __construct (UserInterface $user,$doctrine) {
         $this->user = $user;
-        $this->em = $em;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -30,8 +30,9 @@ class EntityProvider implements UserProviderInterface {
      */
     function loadUserByUsername($username) {
 
+        $em = $this->doctrine->getEntityManager();
 
-        $UserRepository = $this->em->getRepository('Src\Entities\User');
+        $UserRepository = $em->getRepository('Src\Entities\User');
 
 
         $user = $UserRepository->findOneBy(array('username'=>$username));

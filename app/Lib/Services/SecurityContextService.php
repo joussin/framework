@@ -23,8 +23,8 @@ use Symfony\Component\Security\Core\User\UserChecker;
 
 class SecurityContextService{
 
-    private $security_context;
-    private $authenticationManager;
+    protected $security_context;
+    protected $authenticationManager;
 
 
     private $security_config;
@@ -32,6 +32,8 @@ class SecurityContextService{
     private $doctrine;
 
     public function __construct($security_config,$encoderFactory,$doctrine){
+
+
 
         $this->security_config = $security_config->getParameters();
         $this->encoderFactory =  $encoderFactory;
@@ -49,7 +51,7 @@ class SecurityContextService{
             $providerKey,
             $this->encoderFactory->getEncoderFactory()
         );
-        $entityProvider = new EntityProvider(new User(),$this->doctrine->getEntityManager());
+        $entityProvider = new EntityProvider(new User(),$this->doctrine);
         $entityProvider = new DaoAuthenticationProvider(
             $entityProvider,
             $userChecker,
