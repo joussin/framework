@@ -1,5 +1,8 @@
 services:
 #    SERVICE DE L'APPLICATION
+    profiler:
+        class: App\Lib\Services\ProfilerService
+
     parameters:
         class: App\Lib\Services\ParametersService
 
@@ -31,3 +34,5 @@ services:
     security.context:
         class: App\Lib\Services\SecurityContextService
         arguments: ["@security.parameters","@encoder.factory","@doctrine"]
+
+

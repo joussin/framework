@@ -12,12 +12,12 @@ use Doctrine\ORM\Tools\Setup;
 
 class DoctrineService{
 
-    private $entity_manager;
+    protected $entity_manager;
 
     private $parameters;
 
     public function __construct($parameters){
-        $this->parameters =$parameters;
+        $this->parameters = $parameters;
     }
 
     /**
@@ -30,11 +30,11 @@ class DoctrineService{
 
         // the connection configuration
         $dbParams = array(
-            'driver'   =>$this->parameters->getParameters()['db']['driver'],
-            'user'     => $this->parameters->getParameters()['db']['user'],
-            'password' => $this->parameters->getParameters()['db']['password'],
-            'dbname'   =>$this->parameters->getParameters()['db']['dbname'],
-            'charset'   => $this->parameters->getParameters()['db']['charset']
+            'driver'   =>$this->parameters['db']['driver'],
+            'user'     => $this->parameters['db']['user'],
+            'password' => $this->parameters['db']['password'],
+            'dbname'   =>$this->parameters['db']['dbname'],
+            'charset'   => $this->parameters['db']['charset']
         );
 
 

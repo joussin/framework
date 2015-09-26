@@ -9,16 +9,12 @@ namespace App\Lib\Services;
 
 use Symfony\Component\Yaml\Parser;
 
-class ParametersService{
+class ParametersService extends \ArrayObject{
 
-    private $parameters;
-
-    /**
-     * @return mixed
-     */
-    public function getParameters()
-    {  $parser = new Parser();
-        $this->parameters =  $parser->parse(file_get_contents(ROOT_PATH.'/app/config/parameters.yml'));
-        return $this->parameters;
+    public function __construct(){
+        $parser = new Parser();
+        $datas = $parser->parse(file_get_contents(ROOT_PATH.'/app/config/parameters.yml'));
+        parent::__construct($datas);
     }
+
 }

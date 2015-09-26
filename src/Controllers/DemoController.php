@@ -25,7 +25,7 @@ final class DemoController extends AbstractController
 
 
 //        echo $this->getContainer()->get('demoservice')->getStr();
-        $link = $this->getContainer()->get('router')->generateUrl('route_1', array('name'=>$name));
+//        $link = $this->getContainer()->get('router')->generateUrl('route_1', array('name'=>$name));
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
         $demo = new Demo();
@@ -54,7 +54,7 @@ final class DemoController extends AbstractController
         return  $this->render("Demo/index.html.twig",
             array(
                 'name'=>$name,
-                'link'=>$link,
+//                'link'=>$link,
                 'form' => $form->createView(),
                 'demos' => $demos,
             )
@@ -63,9 +63,7 @@ final class DemoController extends AbstractController
 
 
 
-    public  function testPerfAction($templating,Request $request){
-
-
+    public function testPerfAction($templating){
 
          if($templating == "twig"){
 
@@ -80,7 +78,6 @@ final class DemoController extends AbstractController
         elseif($templating=="php") {
 
 
-            $test = $this->getCurrentUser();
 
             return $this->renderPhp("../src/Views/Demo/testPerf.html.php",
                 array(

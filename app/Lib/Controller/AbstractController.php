@@ -61,13 +61,4 @@ abstract class AbstractController{
         return new Response( $out);
     }
 
-    public function getCurrentUser(){
-
-        if(NULL!=$this->getContainer()->get('security.context')->getSecurityContext()->getToken()){
-            
-            return $this->getContainer()->get('security.context')->getSecurityContext()->getToken()->getUser();
-        }else
-            return NULL;
-    }
-
 }
