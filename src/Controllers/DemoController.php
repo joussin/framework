@@ -50,7 +50,6 @@ final class DemoController extends AbstractController
         $demoRepository = $em->getRepository('Src\Entities\Demo');
         $demos = $demoRepository->findAll();
 
-
         return  $this->render("Demo/index.html.twig",
             array(
                 'name'=>$name,
@@ -64,6 +63,9 @@ final class DemoController extends AbstractController
 
 
     public function testPerfAction($templating){
+
+
+
 
          if($templating == "twig"){
 

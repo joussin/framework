@@ -11,18 +11,30 @@ namespace App\Lib\Services;
 
 class ProfilerService{
 
-protected $instance;
+    protected $container;
 
-    /**
-     * @return mixed
-     */
-    public function getInstance()
+    public function __construct($container)
     {
-        return $this->instance;
+        $this->container = $container;
     }
 
+    public function getToken(){
 
+        return array(
+            "session"=>$this->container->get('session')->get('security_token'),
+            "security.context"=>$this->container->get('security.context')->getSecurityContext()->getToken()!==NULL?$this->container->get('security.context')->getSecurityContext()->getToken():NULL,
+        );
+    }
 
+    public function getServices(){
 
-
+        $services = $this->container->getServiceIds();
+        foreach($services as $key=>$service){
+            $services[$key] = array(
+                "id" => $service,
+                "instanciate" => $this->container->initialized($service)
+            );
+        }
+        return $services;
+    }
 }
