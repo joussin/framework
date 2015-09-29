@@ -21,7 +21,7 @@ class FirewallListener implements EventSubscriberInterface
 
     public function __construct($container,$matcher){
         $this->container = $container;
-        $this->firewall = $container->get('security.parameters')->getParameters()['firewall'];
+        $this->firewall = $container->get('security.parameters')['firewall'];
         $this->matcher = $matcher;
         $this->routes = $container->get('router')->getRoutes();
     }

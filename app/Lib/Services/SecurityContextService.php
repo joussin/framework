@@ -35,7 +35,7 @@ class SecurityContextService{
 
 
 
-        $this->security_config = $security_config->getParameters();
+        $this->security_config = $security_config;
         $this->encoderFactory =  $encoderFactory;
         $this->doctrine = $doctrine;
 

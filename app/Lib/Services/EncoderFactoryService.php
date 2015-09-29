@@ -29,7 +29,7 @@ class EncoderFactoryService{
         $encoder['plaintext'] = new PlaintextPasswordEncoder();
         $encoder['sha512'] = new MessageDigestPasswordEncoder('sha512',false,1);
         $encoders = array();
-        foreach($this->security_config->getParameters()['encoders'] as $prov => $enco){
+        foreach($this->security_config['encoders'] as $prov => $enco){
             $encoders[$prov] = $encoder[$enco];
         }
         $this->encoderFactory = new EncoderFactory($encoders);

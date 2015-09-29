@@ -21,8 +21,9 @@ class ProfilerService{
     public function getToken(){
 
         return array(
-            "session"=>$this->container->get('session')->get('security_token'),
-            "security.context"=>$this->container->get('security.context')->getSecurityContext()->getToken()!==NULL?$this->container->get('security.context')->getSecurityContext()->getToken():NULL,
+            "session"=>$this->container->get('session')->get('security_token')->__toString(),
+            "security.context"=>
+                $this->container->get('security.context')->getSecurityContext()->getToken()!==NULL?$this->container->get('security.context')->getSecurityContext()->getToken()->__toString():NULL,
         );
     }
 

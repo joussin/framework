@@ -39,6 +39,7 @@ class FrontalController{
         $loader->load('services.yml');
         $container->compile();
 
+
         $routes = $container->get('router')->getRoutes();
         $request = Request::createFromGlobals();
         $matcher = new UrlMatcher($routes, new RequestContext());

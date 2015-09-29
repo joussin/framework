@@ -60,7 +60,7 @@ class AuthenticationListener implements EventSubscriberInterface
                 $unauth_token = new UsernamePasswordToken(
                     $user,
                     $pass,
-                    $this->container->get('security.parameters')->getParameters()['providers']['keys']['provider_key']
+                    $this->container->get('security.parameters')['providers']['keys']['provider_key']
             );
 
                 try{
@@ -91,7 +91,7 @@ class AuthenticationListener implements EventSubscriberInterface
 
     private function cryptToken($user,$pass){
 
-       $crypt_key = $this->container->get('security.parameters')->getParameters()['providers']['keys']['crypt_key'];
+       $crypt_key = $this->container->get('security.parameters')['providers']['keys']['crypt_key'];
 
         $unauth_token_crypted  = array(
             $user,
@@ -111,7 +111,7 @@ class AuthenticationListener implements EventSubscriberInterface
 
     private function decryptToken($unauth_token_crypted){
 
-        $crypt_key = $this->container->get('security.parameters')->getParameters()['providers']['keys']['crypt_key'];
+        $crypt_key = $this->container->get('security.parameters')['providers']['keys']['crypt_key'];
 
         $unauth_token_crypted = base64_decode($unauth_token_crypted);
 
@@ -126,7 +126,7 @@ class AuthenticationListener implements EventSubscriberInterface
         return  $unauth_token = new UsernamePasswordToken(
             $unauth_token_crypted[0],
             $unauth_token_crypted[1],
-            $this->container->get('security.parameters')->getParameters()['providers']['keys']['provider_key']
+            $this->container->get('security.parameters')['providers']['keys']['provider_key']
         );
     }
 

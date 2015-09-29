@@ -9,21 +9,17 @@ namespace App\Lib\Services;
 
 use Symfony\Component\Yaml\Parser;
 
-class SecurityParametersService{
 
-    private $parameters;
+class SecurityParametersService extends \ArrayObject
+{
 
-    /**
-     * @return mixed
-     */
-    public function getParameters()
-    {  $parser = new Parser();
-        $this->parameters =  $parser->parse(file_get_contents(ROOT_PATH.'/app/config/security.yml'));
-        return $this->parameters;
-    }
-
-    public function get($param_name)
+    public function __construct()
     {
-        return (isset($this->parameters[$param_name]))?$this->parameters[$param_name]:NULL;
+        $parser = new Parser();
+        $datas = $parser->parse(file_get_contents(ROOT_PATH . '/app/config/security.yml'));
+        parent::__construct($datas);
     }
+
+
+
 }
