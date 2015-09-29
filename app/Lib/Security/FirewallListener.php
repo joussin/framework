@@ -47,7 +47,7 @@ class FirewallListener implements EventSubscriberInterface
 
     private function unauthorize($role){
 
-        $token = $this->container->get('security')->getSecurityContext()->getToken();
+        $token = $this->container->get('security.context')->getToken();
         if($token === NULL){
 
 //            $link = $this->container->get('router')->generateUrl('security_login');
@@ -63,7 +63,7 @@ class FirewallListener implements EventSubscriberInterface
             $this->request->attributes->add($parameters);
             $this->request->attributes->set('_route_params', $parameters);
         }
-        else if( !$this->container->get('security')->getSecurityContext()->isGranted($role) ){
+        else if( !$this->container->get('security.context')->isGranted($role) ){
 
             header('HTTP/1.0 403 Forbidden');
             die("403 Unauthorized");

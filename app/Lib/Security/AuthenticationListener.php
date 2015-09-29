@@ -23,11 +23,16 @@ class AuthenticationListener implements EventSubscriberInterface
     private $authenticationManager;
 
 
-
+    /**
+     * @param $container
+     */
     public function __construct($container){
         $this->container = $container;
     }
 
+    /**
+     * @param GetResponseEvent $event
+     */
     public function onKernelRequest(GetResponseEvent $event)
     {
 
@@ -39,10 +44,10 @@ class AuthenticationListener implements EventSubscriberInterface
         $token_cookie = $request->cookies->get('security_token');
 
         if($token_session!= NULL){
-            $this->container->get('security')->getSecurityContext()->setToken($token_session);
+            $this->container->get('security.context')->setToken($token_session);
         }
         else if($token_cookie!= NULL){
-            $token_cookie = ($this->decryptToken($token_cookie));
+            $token_cookie = ($this->container->get('security.context')->decryptToken($token_cookie));
             $this->authenticate($token_cookie);
 
         }
@@ -67,7 +72,7 @@ class AuthenticationListener implements EventSubscriberInterface
                     $this->authenticate($unauth_token);
 
                     if($remember_me){
-                        $unauth_token_crypted = $this->cryptToken($user, $pass);
+                        $unauth_token_crypted = $this->container->get('security.context')->cryptToken($user, $pass);
                         $cookie = new Cookie("security_token", $unauth_token_crypted, time()+ 3600 * 24 * 7);
                         $response = new Response();
                         $response->headers->setCookie($cookie);
@@ -81,56 +86,20 @@ class AuthenticationListener implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param $unauth_token
+     */
     private function authenticate($unauth_token){
-        $this->authenticationManager = $this->container->get('security')->getAuthenticationManager();
+        $this->authenticationManager = $this->container->get('security.context')->getAuthenticationManager();
         $authenticatedToken = $this->authenticationManager->authenticate($unauth_token);
-        $this->container->get('security')->getSecurityContext()->setToken($authenticatedToken);
+        $this->container->get('security.context')->setToken($authenticatedToken);
         $this->container->get('session')->set('security_token',$authenticatedToken );
 
     }
 
-    private function cryptToken($user,$pass){
-
-       $crypt_key = $this->container->get('security.parameters')['providers']['keys']['crypt_key'];
-
-        $unauth_token_crypted  = array(
-            $user,
-            $pass);
-        $unauth_token_crypted = serialize($unauth_token_crypted);
-
-        $unauth_token_crypted = mcrypt_encrypt(
-            MCRYPT_RIJNDAEL_128,
-            $crypt_key,
-            $unauth_token_crypted,
-            "ecb");
-        $unauth_token_crypted = base64_encode($unauth_token_crypted);
-
-        return $unauth_token_crypted;
-    }
-
-
-    private function decryptToken($unauth_token_crypted){
-
-        $crypt_key = $this->container->get('security.parameters')['providers']['keys']['crypt_key'];
-
-        $unauth_token_crypted = base64_decode($unauth_token_crypted);
-
-        $unauth_token_crypted = mcrypt_decrypt(
-            MCRYPT_RIJNDAEL_128,
-            $crypt_key,
-            $unauth_token_crypted,
-            "ecb");
-
-        $unauth_token_crypted =  unserialize($unauth_token_crypted);
-
-        return  $unauth_token = new UsernamePasswordToken(
-            $unauth_token_crypted[0],
-            $unauth_token_crypted[1],
-            $this->container->get('security.parameters')['providers']['keys']['provider_key']
-        );
-    }
-
-
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return array(
