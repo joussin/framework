@@ -39,7 +39,7 @@ class AuthenticationListener implements EventSubscriberInterface
         $token_cookie = $request->cookies->get('security_token');
 
         if($token_session!= NULL){
-            $this->container->get('security.context')->getSecurityContext()->setToken($token_session);
+            $this->container->get('security')->getSecurityContext()->setToken($token_session);
         }
         else if($token_cookie!= NULL){
             $token_cookie = ($this->decryptToken($token_cookie));
@@ -82,9 +82,9 @@ class AuthenticationListener implements EventSubscriberInterface
     }
 
     private function authenticate($unauth_token){
-        $this->authenticationManager = $this->container->get('security.context')->getAuthenticationManager();
+        $this->authenticationManager = $this->container->get('security')->getAuthenticationManager();
         $authenticatedToken = $this->authenticationManager->authenticate($unauth_token);
-        $this->container->get('security.context')->getSecurityContext()->setToken($authenticatedToken);
+        $this->container->get('security')->getSecurityContext()->setToken($authenticatedToken);
         $this->container->get('session')->set('security_token',$authenticatedToken );
 
     }

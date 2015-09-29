@@ -32,8 +32,8 @@ services:
         class: App\Lib\Services\EncoderFactoryService
         arguments: ["@security.parameters"]
 
-    security.context:
-        class: App\Lib\Services\SecurityContextService
+    security:
+        class: App\Lib\Services\SecurityService
         arguments: ["@security.parameters","@encoder.factory","@doctrine"]
 
 
