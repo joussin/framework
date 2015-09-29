@@ -45,9 +45,7 @@ abstract class AbstractController{
     public function render($htmlFile,$arguments = array()){
 
         $arguments["web_path"] = $this->getAssetDirectory();
-
-
-        return new Response( $this->container->get('twig')->getTwig()->render($htmlFile, $arguments));
+        return new Response( $this->container->get('twig')->render($htmlFile, $arguments));
     }
 
     public function renderPhp($htmlFile,$arguments = array()){

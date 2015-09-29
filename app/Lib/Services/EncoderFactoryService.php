@@ -11,28 +11,17 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 
-class EncoderFactoryService{
+class EncoderFactoryService extends EncoderFactory
+{
 
-    protected $encoderFactory;
-    private $security_config;
-
-    public function __construct($security_config){
-
-        $this->security_config = $security_config;
-    }
-
-    /**
-     * @return EncoderFactory
-     */
-    public function getEncoderFactory()
+    public function __construct($security_config)
     {
         $encoder['plaintext'] = new PlaintextPasswordEncoder();
-        $encoder['sha512'] = new MessageDigestPasswordEncoder('sha512',false,1);
+        $encoder['sha512'] = new MessageDigestPasswordEncoder('sha512', false, 1);
         $encoders = array();
-        foreach($this->security_config['encoders'] as $prov => $enco){
+        foreach ($security_config['encoders'] as $prov => $enco) {
             $encoders[$prov] = $encoder[$enco];
         }
-        $this->encoderFactory = new EncoderFactory($encoders);
-        return $this->encoderFactory;
+        return parent::__construct($encoders);
     }
 }

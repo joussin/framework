@@ -27,7 +27,6 @@ class DoctrineService{
     {
         //Doctrine initialisation
         $paths = array(ROOT_PATH."/src/Entities");
-
         // the connection configuration
         $dbParams = array(
             'driver'   =>$this->parameters['db']['driver'],
@@ -36,7 +35,6 @@ class DoctrineService{
             'dbname'   =>$this->parameters['db']['dbname'],
             'charset'   => $this->parameters['db']['charset']
         );
-
 
         $config = Setup::createAnnotationMetadataConfiguration($paths, DEV_MODE);
         $this->entity_manager = EntityManager::create($dbParams, $config);

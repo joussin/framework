@@ -16,24 +16,20 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Translator;
 
-class TwigService{
+class TwigService extends \Twig_Environment{
 
-    private $twig;
-
-    /**
-     * @return \Twig_Environment
-     */
-    public function getTwig()
-    {   if(DEV_MODE){
-        $options = array(
-            'cache' => false
-        );
-    }
-    else{
-        $options = array(
-            'cache' => ROOT_PATH.'/app/cache/twig',
-        );
-    }
+    public function __construct()
+    {
+        if(DEV_MODE){
+            $options = array(
+                'cache' => false
+            );
+        }
+        else{
+            $options = array(
+                'cache' => ROOT_PATH.'/app/cache/twig',
+            );
+        }
 
         $loader = new \Twig_Loader_Filesystem(
             array(
@@ -42,17 +38,17 @@ class TwigService{
                 ROOT_PATH.'/app/views/form'
             )
         );
-        $this->twig = new \Twig_Environment($loader, $options);
+        parent::__construct($loader, $options);
 
         //form layout
         $formEngine = new TwigRendererEngine(array('form_div_layout.html.twig'));
-        $formEngine->setEnvironment($this->twig);
+        $formEngine->setEnvironment($this);
 
         //security
         $csrfSecret = md5(rand(0,10000000000000000));
         $session = new Session();
         $csrfProvider = new SessionCsrfProvider($session, $csrfSecret);
-        $this->twig->addExtension(
+        $this->addExtension(
             new FormExtension(new TwigRenderer($formEngine, $csrfProvider))
         );
 
@@ -64,10 +60,6 @@ class TwigService{
             ROOT_PATH.'app/views/form/translation/messages.en.xlf',
             'en'
         );
-        $this->twig->addExtension(new TranslationExtension($translator));
-        return $this->twig;
+        $this->addExtension(new TranslationExtension($translator));
     }
-
-
-
 }

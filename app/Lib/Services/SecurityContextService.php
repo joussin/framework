@@ -33,8 +33,6 @@ class SecurityContextService{
 
     public function __construct($security_config,$encoderFactory,$doctrine){
 
-
-
         $this->security_config = $security_config;
         $this->encoderFactory =  $encoderFactory;
         $this->doctrine = $doctrine;
@@ -49,14 +47,14 @@ class SecurityContextService{
             $inMemoryUserProvider,
             $userChecker,
             $providerKey,
-            $this->encoderFactory->getEncoderFactory()
+            $this->encoderFactory
         );
         $entityProvider = new EntityProvider(new User(),$this->doctrine);
         $entityProvider = new DaoAuthenticationProvider(
             $entityProvider,
             $userChecker,
             $providerKey,
-            $this->encoderFactory->getEncoderFactory()
+            $this->encoderFactory
         );
 
         //PROVIDER MANAGER

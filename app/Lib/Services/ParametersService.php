@@ -11,10 +11,10 @@ use Symfony\Component\Yaml\Parser;
 
 class ParametersService extends \ArrayObject{
 
-    public function __construct(){
+    public function __construct()
+    {
         $parser = new Parser();
         $datas = $parser->parse(file_get_contents(ROOT_PATH.'/app/config/parameters.yml'));
         parent::__construct($datas);
     }
-
 }

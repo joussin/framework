@@ -2,7 +2,7 @@ services:
 #    SERVICE DE L'APPLICATION
     profiler:
         class: App\Lib\Services\ProfilerService
-        arguments: ["@service_container"]
+        arguments: ["@parameters"]
 
     parameters:
         class: App\Lib\Services\ParametersService

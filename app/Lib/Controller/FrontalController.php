@@ -27,6 +27,7 @@ class FrontalController{
 /*
  * TODO: validateur UniqueEntity pour la page de register
  * TODO: performance de security.context service (pb injection doctrine, constructeur appelé etc...)
+ * TODO: refaire security context service
  *
  */
 
@@ -56,8 +57,8 @@ class FrontalController{
         $response->send();
         $kernel->terminate($request, $response);
 
-        var_dump($container->get('profiler')->getServices());
-        var_dump($container->get('profiler')->getToken());
+//        var_dump($container->get('profiler')->getServices());
+//        var_dump($container->get('profiler')->getToken());
 
     }
 }
