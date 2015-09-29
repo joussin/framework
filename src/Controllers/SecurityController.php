@@ -1,28 +1,17 @@
 <?php
 namespace Src\Controllers;
-//namespace App\Lib\Security;
 
 use App\Lib\Controller\AbstractController;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Src\Entities\User;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator;
-use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Firewall;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Validation;
-
 
 final class SecurityController extends AbstractController
 {
-
-
     public  function loginAction(){
 
         $error = $this->getContainer()->get('session')->get('security_login_error');
@@ -129,16 +118,12 @@ final class SecurityController extends AbstractController
             if ($form->isValid()) {
 
                 $user = $form->getData();
-
                 $salt = uniqid();
                 $user->setSalt($salt);
-
                 $encoder = $this->getContainer()->get('encoder.factory')->getEncoderFactory()->getEncoder($user);
                 $encodedPassword = $encoder->encodePassword($user->getPassword(), $salt);
                 $user->setPassword($encodedPassword);
-
                 $user->setValidationToken(md5($user->getUsername()));
-
                 try{
                     $em->persist($user);
                     $em->flush();
