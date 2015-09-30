@@ -52,8 +52,8 @@ class FrontalController{
         $response->send();
         $kernel->terminate($request, $response);
 
-//        var_dump($container->get('profiler')->getServices());
-//        var_dump($container->get('profiler')->getToken());
+        if(DEV_MODE)$container->get('profiler')->showProfiler();
+
 
     }
 }
