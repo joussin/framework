@@ -62,12 +62,8 @@ final class DemoController extends AbstractController
 
 
 
-    public function testPerfAction($templating){
+    public function testPerfAction(){
 
-
-
-
-         if($templating == "twig"){
 
 
             return  $this->render("Demo/testPerf.html.twig",
@@ -75,19 +71,8 @@ final class DemoController extends AbstractController
                     'demos'=>array('demo')
                 )
             );
-        }
-
-        elseif($templating=="php") {
 
 
-
-            return $this->renderPhp("../src/Views/Demo/testPerf.html.php",
-                array(
-                    'demos'=>array('demo')
-                )
-            );
-
-        }
 
     }
 

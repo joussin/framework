@@ -5,7 +5,7 @@ route_1:
     defaults: { _controller: 'Src\Controllers\DemoController::indexAction' }
 
 route_2:
-    path:     /test-perf/{templating}
+    path:     /test-perf
     defaults: { _controller: 'Src\Controllers\DemoController::testPerfAction' }
 
 

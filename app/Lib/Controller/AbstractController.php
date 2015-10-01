@@ -2,6 +2,7 @@
 
 namespace App\Lib\Controller;
 
+use App\Lib\Helper\HtmlHelper;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -12,15 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class AbstractController{
 
     private $container;
-    private $asset_directory;
 
     public function __construct($container){
 
         //création du conteneur de sevice
         $this->container =  $container;
 
-        //generation du repertoire des assets
-        $this->asset_directory = WEB_PATH;
     }
 
     /**
@@ -30,13 +28,7 @@ abstract class AbstractController{
     {
         return $this->container;
     }
-    /**
-     * @return string
-     */
-    public function getAssetDirectory()
-    {
-        return $this->asset_directory;
-    }
+
     /**
      * @param $htmlFile
      * @param $arguments
@@ -44,19 +36,10 @@ abstract class AbstractController{
      */
     public function render($htmlFile,$arguments = array()){
 
-        $arguments["web_path"] = $this->getAssetDirectory();
+        $arguments['HtmlHelper']= new HtmlHelper();
+
         return new Response( $this->container->get('twig')->render($htmlFile, $arguments));
     }
 
-    public function renderPhp($htmlFile,$arguments = array()){
-
-        extract($arguments);
-        ob_start();
-        include($htmlFile);
-        $out = ob_get_contents();
-        ob_end_clean();
-
-        return new Response( $out);
-    }
-
 }
+
