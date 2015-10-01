@@ -3,7 +3,6 @@ namespace Src\Controllers;
 
 use App\Lib\Controller\AbstractController;
 use App\Lib\Validator\UniqueEntity;
-use App\Lib\Validator\UniqueEntity_;
 use Src\Entities\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +21,17 @@ final class SecurityController extends AbstractController
             $this->getContainer()->get('session')->remove('security_login_error');
         }
 
+        $token = $this->getContainer()->get('session')->get('security_token');
+        if( $token!=NULL ){
+            $connected = true;
+        }else{
+            $connected = false;
+        }
 
         return  $this->render("Security/login.html.twig",
             array(
-                "error"=>$error
+                "error"=>$error,
+                "connected"=>$connected
             )
         );
     }

@@ -7,7 +7,9 @@
 
 
 
-        <h1>login</h1>
+    <h1>login</h1>
+
+    {%  if not connected %}
         <form action="" method="post">
 
             <label for="_username" >Username</label><br />
@@ -30,10 +32,13 @@
 
         </form>
 
+    {%  else %}
+        Vous êtes connecté
+    {% endif %}
 
-        <p>
-            {{ error }}
-        </p>
+    <p>
+        {{ error }}
+    </p>
 
 
 
