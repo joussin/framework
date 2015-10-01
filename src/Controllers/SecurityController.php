@@ -120,7 +120,7 @@ final class SecurityController extends AbstractController
                 $user = $form->getData();
                 $salt = uniqid();
                 $user->setSalt($salt);
-                $encoder = $this->getContainer()->get('encoder.factory')->getEncoderFactory()->getEncoder($user);
+                $encoder = $this->getContainer()->get('encoder.factory')->getEncoder($user);
                 $encodedPassword = $encoder->encodePassword($user->getPassword(), $salt);
                 $user->setPassword($encodedPassword);
                 $user->setValidationToken(md5($user->getUsername()));
