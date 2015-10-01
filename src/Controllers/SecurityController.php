@@ -2,6 +2,8 @@
 namespace Src\Controllers;
 
 use App\Lib\Controller\AbstractController;
+use App\Lib\Validator\UniqueEntity;
+use App\Lib\Validator\UniqueEntity_;
 use Src\Entities\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,7 +66,16 @@ final class SecurityController extends AbstractController
         $form = $this->getContainer()->get('form.factory')->getInstance()
             ->createBuilder("form",$user)
             ->add('username',null, array(
-                'constraints' => array(new Length(
+                'constraints' => array(
+                    new UniqueEntity(
+                        array(
+                            'message'=> "username déjà utilisé",
+                            'entity'=> 'Src\Entities\User',
+                            'field'=> 'username',
+                            'doctrine'=>$this->getContainer()->get('doctrine')
+                        )
+                    ),
+                    new Length(
                     array(
                         'min'        => 2,
                         'max'        => 10,
@@ -81,6 +92,14 @@ final class SecurityController extends AbstractController
             ))
             ->add('email',null, array(
                 'constraints' => array(
+                    new UniqueEntity(
+                        array(
+                            'message'=> "email déjà utilisé",
+                            'entity'=> 'Src\Entities\User',
+                            'field'=> 'email',
+                            'doctrine'=>$this->getContainer()->get('doctrine')
+                        )
+                    ),
                     new Email(
                         array(
                             'message'=> "email invalide"

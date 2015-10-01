@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\Request;
 class FrontalController{
 
 /*
- * TODO: validateur UniqueEntity pour la page de register
  * TODO: form de login à metre en form factory
  */
 
