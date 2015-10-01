@@ -23,10 +23,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FrontalController{
 
-/*
- * TODO: form de login à metre en form factory
- */
-
     public function __construct(){
 
         $container = new ContainerBuilder();
