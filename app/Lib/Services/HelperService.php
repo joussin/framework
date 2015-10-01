@@ -57,7 +57,7 @@ class HelperService{
      */
     public function dump($data)
     {
-        return var_dump($data);
+         var_dump($data);
     }
 
 
@@ -66,7 +66,7 @@ class HelperService{
      * @param $args
      * @return string
      */
-    public function generateUrl($route_alias,$args=array()){
+    public function url($route_alias,$args=array()){
         $routes= $this->router->getRoutes();
         $context = new RequestContext(self::getAssetDirectory());
         $generator = new UrlGenerator($routes, $context);

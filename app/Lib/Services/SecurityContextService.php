@@ -37,6 +37,8 @@ class SecurityContextService extends SecurityContext{
         parent::__construct($this->getAuthenticationManager(),$this->getAccessDecisionManager());
     }
 
+
+
     /**
      * @return AccessDecisionManager
      */

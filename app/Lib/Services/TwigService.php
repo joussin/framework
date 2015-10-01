@@ -7,6 +7,7 @@
  */
 namespace App\Lib\Services;
 
+
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
@@ -60,6 +61,9 @@ class TwigService extends \Twig_Environment{
             ROOT_PATH.'app/views/form/translation/messages.en.xlf',
             'en'
         );
+
         $this->addExtension(new TranslationExtension($translator));
+
+
     }
 }

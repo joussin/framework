@@ -13,9 +13,6 @@ services:
     router:
         class: App\Lib\Services\RouterService
 
-    twig:
-        class: App\Lib\Services\TwigService
-
     form.factory:
         class: App\Lib\Services\FormFactoryService
 
@@ -40,5 +37,6 @@ services:
         class: App\Lib\Services\HelperService
         arguments: ["@router"]
 
-
+    twig:
+        class: App\Lib\Services\TwigService
 
