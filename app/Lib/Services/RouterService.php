@@ -27,14 +27,5 @@ class RouterService{
         return $this->routes;
     }
 
-//    /**
-//     * @param $route_alias
-//     * @param $args
-//     * @return string
-//     */
-//    public function generateUrl($route_alias,$args=array()){
-//        $context = new RequestContext(WEB_PATH);
-//        $generator = new UrlGenerator($this->routes, $context);
-//        return $generator->generate($route_alias, $args);
-//    }
+
 }

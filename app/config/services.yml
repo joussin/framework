@@ -36,4 +36,9 @@ services:
         class: App\Lib\Services\SecurityContextService
         arguments: ["@security.parameters","@encoder.factory","@doctrine"]
 
+    helper:
+        class: App\Lib\Services\HelperService
+        arguments: ["@router"]
+
+
 

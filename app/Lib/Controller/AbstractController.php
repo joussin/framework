@@ -14,11 +14,9 @@ abstract class AbstractController{
 
     private $container;
 
-    public function __construct($container){
-
-        //création du conteneur de sevice
+    public function __construct($container)
+    {
         $this->container =  $container;
-
     }
 
     /**
@@ -34,10 +32,9 @@ abstract class AbstractController{
      * @param $arguments
      * @return Response
      */
-    public function render($htmlFile,$arguments = array()){
-
-        $arguments['HtmlHelper']= new HtmlHelper();
-
+    public function render($htmlFile,$arguments = array())
+    {
+        $arguments['helper']= $this->getContainer()->get('helper');
         return new Response( $this->container->get('twig')->render($htmlFile, $arguments));
     }
 

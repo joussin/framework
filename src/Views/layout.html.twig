@@ -1,7 +1,8 @@
 {% extends "base.html.twig" %}
 
 {% block stylesheet %}
-    <link href="{{ HtmlHelper.asset("/css/style.css") }}" rel="stylesheet" />
+    {{ helper.css("style.css") }}
+    {{ helper.script("script.js") }}
 {% endblock %}
 
 {% block javascript %}
@@ -13,8 +14,6 @@
 {% endblock %}
 
 {% block body %}
-
-
 
 
     <header>{% block header %}{% endblock %}</header>

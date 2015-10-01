@@ -47,13 +47,11 @@ class ProfilerService{
     public function showProfiler(){
 
         echo "<div style='position: absolute;bottom:0;left:0;background-color: #f5f5f5'>";
-        echo "<div id='btn' onclick='document.getElementById(\"content\").style.display=\"block\"'><strong>PROFILER</strong>";
+        echo "<div id='btn' onclick='document.getElementById(\"content\").style.display=\"block\"'><strong>INFO</strong>";
         echo "</div>";
         echo "<div id='content' style='display: none'>";
         echo ($this->getServices());
         echo ($this->getToken());
-
-
         echo "</div>";
         echo "</div>";
     }
