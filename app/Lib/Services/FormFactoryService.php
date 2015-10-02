@@ -20,7 +20,7 @@ class FormFactoryService{
     /**
      * @return \Symfony\Component\Form\FormFactoryInterface
      */
-    public function getInstance()
+    public function getFormFactory()
     {
         $this->formFactory = Forms::createFormFactoryBuilder()
             ->addExtension(new ValidatorExtension(Validation::createValidator()))
