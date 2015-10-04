@@ -69,7 +69,7 @@ final class SecurityController extends AbstractController
 
 
         $user = new User();
-        $form = $this->getContainer()->get('form.factory')->getInstance()
+        $form = $this->getContainer()->get('form.factory')->getFormFactory()
             ->createBuilder("form",$user)
             ->add('username',null, array(
                 'constraints' => array(
